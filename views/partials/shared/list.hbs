@@ -1,0 +1,29 @@
+<h1>{{capitalize entity}}s</h1>
+<a href="/{{entity}}s/new" class="btn btn-primary mb-3">New {{capitalize entity}}</a>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      {{#each fields}}
+        <th>{{capitalize this}}</th>
+      {{/each}}
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each items}}
+      <tr>
+        {{#each ../fields}}
+          <td>{{lookup ../this this}}</td>
+        {{/each}}
+        <td>
+          <a href="/{{../entity}}s/{{id}}" class="btn btn-sm btn-info">View</a>
+          <a href="/{{../entity}}s/{{id}}/edit" class="btn btn-sm btn-warning">Edit</a>
+          <form method="POST" action="/{{../entity}}s/{{id}}?_method=DELETE" style="display: inline;">
+            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

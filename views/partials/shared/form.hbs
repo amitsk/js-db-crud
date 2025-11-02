@@ -1,0 +1,16 @@
+<h1>{{title}}</h1>
+<form method="POST" action="/{{entity}}s{{#if item}}/{{item.id}}{{/if}}">
+  {{#if item}}
+    <input type="hidden" name="_method" value="PUT">
+  {{/if}}
+
+  {{#each fields}}
+    <div class="mb-3">
+      <label for="{{this}}" class="form-label">{{capitalize this}}</label>
+      <input type="text" class="form-control" id="{{this}}" name="{{this}}" value="{{#if ../item}}{{lookup ../item this}}{{/if}}" required>
+    </div>
+  {{/each}}
+
+  <button type="submit" class="btn btn-primary">{{#if item}}Update{{else}}Create{{/if}} {{capitalize entity}}</button>
+  <a href="/{{entity}}s" class="btn btn-secondary">Cancel</a>
+</form>
