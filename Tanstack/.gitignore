@@ -1,0 +1,40 @@
+# Dependencies
+node_modules
+pnpm-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist
+dist-ssr
+build
+.vite
+
+# IDE & Editor
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+.eslintcache
+
+# Runtime
+.nitro
+.tanstack
+.wrangler
+.output
+.vinxi
+
+# Logs
+*.log
+logs
+
+# Temporary files
+count.txt
+todos.json
+*.local
