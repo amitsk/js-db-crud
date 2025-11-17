@@ -1,9 +1,18 @@
 import { config } from "dotenv";
-import { drizzle } from "drizzle-orm/better-sqlite3";
-import Database from "better-sqlite3";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { Pool } from "pg";
 import * as schema from "./schema.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
-config({ path: "../../.env.local" });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const client = new Database(process.env.DATABASE_URL || "db.sqlite");
-export const db = drizzle(client, { schema });
+// resolve path relative to this file so it works regardless of process.cwd()
+config({ path: path.resolve(__dirname, "../../.env.local") });
+
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+export const db = drizzle(pool, { schema });

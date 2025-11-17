@@ -177,17 +177,17 @@ Fastify/
 │   ├── db/
 │   │   ├── index.js
 │   │   └── schema.js
-│   └── routes/
-│       ├── users.js
-│       ├── products.js
-│       └── orders.js
+│   ├── routes/
+│   │   ├── users.js
+│   │   ├── products.js
+│   │   └── orders.js
+│   └── server.js
 ├── drizzle/
 ├── .env.local
 ├── biome.json
 ├── drizzle.config.js
 ├── package.json
-├── README.md
-└── server.js
+└── README.md
 ```
 
 ## Notes

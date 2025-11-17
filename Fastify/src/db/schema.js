@@ -1,29 +1,29 @@
 import { relations, sql } from "drizzle-orm";
-import { sqliteTable, integer, text, real } from "drizzle-orm/sqlite-core";
+import { pgTable, serial, integer, text, real, timestamp, decimal } from "drizzle-orm/pg-core";
 
-export const todos = sqliteTable("todos", {
-	id: integer("id").primaryKey({ autoIncrement: true }),
+export const todos = pgTable("todos", {
+	id: serial("id").primaryKey(),
 	title: text("title").notNull(),
-	createdAt: text("created_at").default(sql`(current_timestamp)`),
+	createdAt: timestamp("created_at").default(sql`now()`),
 });
 
-export const users = sqliteTable("users", {
-	id: integer("id").primaryKey({ autoIncrement: true }),
+export const users = pgTable("users", {
+	id: serial("id").primaryKey(),
 	name: text("name").notNull(),
 	email: text("email").notNull().unique(),
-	createdAt: text("created_at").default(sql`(current_timestamp)`),
+	createdAt: timestamp("created_at").default(sql`now()`),
 });
 
-export const products = sqliteTable("products", {
-	id: integer("id").primaryKey({ autoIncrement: true }),
+export const products = pgTable("products", {
+	id: serial("id").primaryKey(),
 	name: text("name").notNull(),
-	price: real("price").notNull(),
+	price: decimal("price", { precision: 10, scale: 2 }).notNull(),
 	description: text("description"),
-	createdAt: text("created_at").default(sql`(current_timestamp)`),
+	createdAt: timestamp("created_at").default(sql`now()`),
 });
 
-export const orders = sqliteTable("orders", {
-	id: integer("id").primaryKey({ autoIncrement: true }),
+export const orders = pgTable("orders", {
+	id: serial("id").primaryKey(),
 	userId: integer("user_id")
 		.notNull()
 		.references(() => users.id),
@@ -31,7 +31,7 @@ export const orders = sqliteTable("orders", {
 		.notNull()
 		.references(() => products.id),
 	quantity: integer("quantity").notNull(),
-	createdAt: text("created_at").default(sql`(current_timestamp)`),
+	createdAt: timestamp("created_at").default(sql`now()`),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({

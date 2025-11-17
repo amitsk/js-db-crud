@@ -1,8 +1,10 @@
 import cors from "@fastify/cors";
+import helmet from "@fastify/helmet";
+
 import Fastify from "fastify";
-import ordersRoutes from "./src/routes/orders.js";
-import productsRoutes from "./src/routes/products.js";
-import usersRoutes from "./src/routes/users.js";
+import ordersRoutes from "./routes/orders.js";
+import productsRoutes from "./routes/products.js";
+import usersRoutes from "./routes/users.js";
 
 const fastify = Fastify({
 	logger: true,
@@ -12,6 +14,12 @@ const fastify = Fastify({
 await fastify.register(cors, {
 	origin: true, // Allow all origins for simplicity
 });
+
+await fastify.register(helmet);
+
+await fastify.register(
+  import('@fastify/compress')
+)
 
 // Register routes
 await fastify.register(usersRoutes);
