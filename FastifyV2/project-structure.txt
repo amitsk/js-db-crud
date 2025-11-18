@@ -1,0 +1,55 @@
+.
+|____.env.local
+|____package.json
+|____tsconfig.json
+|____.gitignore
+|____.env.example
+|____drizzle.config.ts
+|____project-structure.txt
+|____README.md
+|____src
+| |____app.ts
+| |____types
+| | |____index.d.ts
+| |____plugins
+| | |____drizzle.plugin.ts
+| |____db
+| | |____index.ts
+| | |____schema
+| | | |____index.ts
+| | | |____order.schema.ts
+| | | |____product.schema.ts
+| | | |____user.schema.ts
+| | | |____orderItem.schema.ts
+| | |____migrations
+| | | |____.gitkeep
+| |____config
+| | |____index.ts
+| |____modules
+| | |____order
+| | | |____index.ts
+| | | |____order.schema.ts
+| | | |____order.repository.ts
+| | | |____order.routes.ts
+| | | |____order.service.ts
+| | | |____order.controller.ts
+| | |____user
+| | | |____index.ts
+| | | |____user.schema.ts
+| | | |____user.service.ts
+| | | |____user.routes.ts
+| | | |____user.controller.ts
+| | | |____user.repository.ts
+| | |____product
+| | | |____index.ts
+| | | |____product.schema.ts
+| | | |____product.service.ts
+| | | |____product.repository.ts
+| | | |____product.controller.ts
+| | | |____product.routes.ts
+| |____shared
+| | |____plugins
+| | | |____auth.plugin.ts
+| | |____decorators
+| | | |____tx.decorator.ts
+| |____server.ts

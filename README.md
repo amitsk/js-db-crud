@@ -1,6 +1,6 @@
 # Database Setup Instructions
 
-This repository contains two implementations of a CRUD web application: one using Express.js + Handlebars, and another using Tanstack Start.
+This repository contains three implementations of a CRUD web application: one using Express.js + Handlebars, one using Fastify + Drizzle ORM, and another using Tanstack Start.
 
 ## Prerequisites
 
@@ -26,21 +26,30 @@ This repository contains two implementations of a CRUD web application: one usin
    CREATE TABLE users (
      id SERIAL PRIMARY KEY,
      name VARCHAR(255) NOT NULL,
-     email VARCHAR(255) NOT NULL UNIQUE
+     email VARCHAR(255) NOT NULL UNIQUE,
+     created_at TIMESTAMP DEFAULT NOW()
    );
 
    CREATE TABLE products (
      id SERIAL PRIMARY KEY,
      name VARCHAR(255) NOT NULL,
      price DECIMAL(10,2) NOT NULL,
-     description TEXT
+     description TEXT,
+     created_at TIMESTAMP DEFAULT NOW()
    );
 
    CREATE TABLE orders (
      id SERIAL PRIMARY KEY,
      user_id INTEGER NOT NULL REFERENCES users(id),
      product_id INTEGER NOT NULL REFERENCES products(id),
-     quantity INTEGER NOT NULL
+     quantity INTEGER NOT NULL,
+     created_at TIMESTAMP DEFAULT NOW()
+   );
+
+   CREATE TABLE todos (
+     id SERIAL PRIMARY KEY,
+     title TEXT NOT NULL,
+     created_at TIMESTAMP DEFAULT NOW()
    );
    ```
 
@@ -62,4 +71,5 @@ Adjust the values according to your PostgreSQL setup.
 ## Projects
 
 - [ExpressJs](./ExpressJs/) - Express.js + Handlebars implementation
+- [Fastify](./Fastify/) - Fastify + Drizzle ORM implementation
 - [Tanstack](./Tanstack/) - Tanstack Start implementation
