@@ -1,0 +1,45 @@
+{
+  "name": "fastifyv2",
+  "version": "1.0.0",
+  "description": "Production-ready Fastify + Drizzle ORM (PostgreSQL) backend",
+  "type": "module",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "tsx watch src/server.simple.ts",
+    "dev:complex": "tsx watch src/server.ts",
+    "start": "node dist/server.simple.js",
+    "start:complex": "node dist/server.js",
+    "build": "tsc",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
+  "keywords": [
+    "fastify",
+    "drizzle",
+    "postgresql",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/compress": "^8.0.1",
+    "@fastify/cors": "^10.0.1",
+    "@fastify/helmet": "^12.0.1",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.33.0",
+    "fastify": "^5.2.0",
+    "http-errors": "^2.0.0",
+    "pg": "^8.13.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/http-errors": "^2.0.4",
+    "@types/node": "^22.10.2",
+    "@types/pg": "^8.11.10",
+    "drizzle-kit": "^0.24.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
