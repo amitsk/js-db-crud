@@ -1,0 +1,44 @@
+**You are an expert Nx + NestJS + Fastify architect and full-stack TypeScript developer.**
+
+Your task is to **migrate and rebuild** the entire application from this repository into a clean, production-grade **Nx modular monolith** using **NestJS + @nestjs/platform-fastify**:
+
+**Original app to migrate:**  
+../FastifyV2
+**Key characteristics of the original (you must preserve 100% of the functionality):**
+- Full TypeScript, strict mode
+- PostgreSQL + Drizzle ORM (with schema for `users`, `products`, `orders`, `order_items` and relations)
+- Zod validation for every request/response
+- Modular layered architecture per domain (user, product, order)
+- Full CRUD for users, products, orders
+- Order creation is transactional (create order + order_items + update stock)
+- Pagination (limit/offset, max 100)
+- Global plugins/middleware: helmet, cors, compression
+- Drizzle plugin that decorates Fastify with `db`
+- Transaction decorator
+- Standardized error handling + http-errors style responses
+- Environment validation with Zod
+- Same exact REST endpoints under `/api/...`
+
+**Target architecture – Nx Modular Monolith (best practices 2026):**
+
+Create a brand new Nx workspace with the following structure. Create the workspace in the NestJsFastify folder:
+
+```bash
+NestJsFastify/
+├── apps/
+│   └── api/                  ← Main NestJS app (using Fastify adapter)
+├── libs/
+│   ├── core/                 ← shared kernel (config, db, utils, decorators, exceptions)
+│   ├── shared/               ← common utilities, zod schemas base, types
+│   ├── domain/
+│   │   ├── user/
+│   │   ├── product/
+│   │   └── order/
+│   │       ├── application/  ← use-cases / services
+│   │       ├── domain/       ← entities, value objects, repositories interfaces
+│   │       ├── infrastructure/ ← drizzle repositories, schema
+│   │       └── presentation/ ← nestjs controllers, dtos
+│   └── infrastructure/
+│       └── database/         ← Drizzle setup, migrations, config
+├── tools/
+└── nx.json, tsconfig.base.json, etc.

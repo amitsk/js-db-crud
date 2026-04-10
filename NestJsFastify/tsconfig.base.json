@@ -1,0 +1,37 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "es2022",
+    "lib": ["ES2022"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "useDefineForClassFields": false,
+    "paths": {
+      "@nestjs-fastify-monolith/api": ["apps/api/src/index.ts"],
+      "@nestjs-fastify-monolith/core": ["libs/core/src/index.ts"],
+      "@nestjs-fastify-monolith/shared": ["libs/shared/src/index.ts"],
+      "@nestjs-fastify-monolith/domain/user": ["libs/domain/user/src/index.ts"],
+      "@nestjs-fastify-monolith/domain/product": ["libs/domain/product/src/index.ts"],
+      "@nestjs-fastify-monolith/domain/order": ["libs/domain/order/src/index.ts"],
+      "@nestjs-fastify-monolith/infrastructure/database": ["libs/infrastructure/database/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

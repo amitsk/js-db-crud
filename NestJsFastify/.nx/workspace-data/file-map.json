@@ -1,0 +1,1407 @@
+{
+  "version": "6.0",
+  "nxVersion": "22.6.4",
+  "pathMappings": {
+    "@nestjs-fastify-monolith/api": [
+      "apps/api/src/index.ts"
+    ],
+    "@nestjs-fastify-monolith/core": [
+      "libs/core/src/index.ts"
+    ],
+    "@nestjs-fastify-monolith/shared": [
+      "libs/shared/src/index.ts"
+    ],
+    "@nestjs-fastify-monolith/domain/user": [
+      "libs/domain/user/src/index.ts"
+    ],
+    "@nestjs-fastify-monolith/domain/product": [
+      "libs/domain/product/src/index.ts"
+    ],
+    "@nestjs-fastify-monolith/domain/order": [
+      "libs/domain/order/src/index.ts"
+    ],
+    "@nestjs-fastify-monolith/infrastructure/database": [
+      "libs/infrastructure/database/src/index.ts"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": ".env.example",
+        "hash": "14411397161336451917"
+      },
+      {
+        "file": ".prompt",
+        "hash": "7303073669876751911"
+      },
+      {
+        "file": "README.md",
+        "hash": "7322282691579665824"
+      },
+      {
+        "file": "drizzle.config.ts",
+        "hash": "15753020328978213381"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9763179458463884892"
+      },
+      {
+        "file": "nx.json",
+        "hash": "13169503015090269980"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "3589486453036241488"
+      },
+      {
+        "file": "package.json",
+        "hash": "12870372990786712714"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "16803047993693802791"
+      }
+    ],
+    "projectFileMap": {
+      "shared": [
+        {
+          "file": "libs/shared/jest.config.ts",
+          "hash": "11047332227387402666"
+        },
+        {
+          "file": "libs/shared/project.json",
+          "hash": "861768140997877182"
+        },
+        {
+          "file": "libs/shared/src/index.ts",
+          "hash": "14083711990029283195"
+        },
+        {
+          "file": "libs/shared/src/types/index.ts",
+          "hash": "14904455138237387595"
+        },
+        {
+          "file": "libs/shared/src/zod/index.ts",
+          "hash": "5474661058429409511",
+          "deps": [
+            "npm:zod"
+          ]
+        },
+        {
+          "file": "libs/shared/tsconfig.json",
+          "hash": "793498117659501542"
+        },
+        {
+          "file": "libs/shared/tsconfig.lib.json",
+          "hash": "11730326215949408316"
+        },
+        {
+          "file": "libs/shared/tsconfig.spec.json",
+          "hash": "8549646423583871521"
+        }
+      ],
+      "domain-product": [
+        {
+          "file": "libs/domain/product/jest.config.ts",
+          "hash": "6087214315681971447"
+        },
+        {
+          "file": "libs/domain/product/project.json",
+          "hash": "16285538181146335077"
+        },
+        {
+          "file": "libs/domain/product/src/application/index.ts",
+          "hash": "14213935043453151180"
+        },
+        {
+          "file": "libs/domain/product/src/application/product.service.ts",
+          "hash": "5581060487136236465",
+          "deps": [
+            "npm:@nestjs/common",
+            "infrastructure-database"
+          ]
+        },
+        {
+          "file": "libs/domain/product/src/domain/index.ts",
+          "hash": "6716855304633580805"
+        },
+        {
+          "file": "libs/domain/product/src/domain/product.entity.ts",
+          "hash": "13576212889608430583",
+          "deps": [
+            "infrastructure-database"
+          ]
+        },
+        {
+          "file": "libs/domain/product/src/domain/product.repository.interface.ts",
+          "hash": "8362668075897410669",
+          "deps": [
+            "infrastructure-database"
+          ]
+        },
+        {
+          "file": "libs/domain/product/src/index.ts",
+          "hash": "12999048713921489970"
+        },
+        {
+          "file": "libs/domain/product/src/infrastructure/index.ts",
+          "hash": "6230517473246668861"
+        },
+        {
+          "file": "libs/domain/product/src/infrastructure/product.repository.ts",
+          "hash": "17864751266463010720",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:drizzle-orm",
+            "core",
+            "infrastructure-database"
+          ]
+        },
+        {
+          "file": "libs/domain/product/src/presentation/index.ts",
+          "hash": "15774809550103436504"
+        },
+        {
+          "file": "libs/domain/product/src/presentation/product.controller.ts",
+          "hash": "10500624100348466015",
+          "deps": [
+            "npm:@nestjs/common",
+            "core"
+          ]
+        },
+        {
+          "file": "libs/domain/product/src/presentation/product.dto.ts",
+          "hash": "628394683594479437",
+          "deps": [
+            "npm:zod",
+            "npm:nestjs-zod",
+            "shared"
+          ]
+        },
+        {
+          "file": "libs/domain/product/src/product.module.ts",
+          "hash": "14491209039655783301",
+          "deps": [
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "libs/domain/product/tsconfig.json",
+          "hash": "6900689797472596984"
+        },
+        {
+          "file": "libs/domain/product/tsconfig.lib.json",
+          "hash": "7980230465355134985"
+        },
+        {
+          "file": "libs/domain/product/tsconfig.spec.json",
+          "hash": "16324862003878039728"
+        }
+      ],
+      "api": [
+        {
+          "file": "apps/api/dist/apps/api/jest.config.d.ts",
+          "hash": "11312260212411772570"
+        },
+        {
+          "file": "apps/api/dist/apps/api/jest.config.js.map",
+          "hash": "18090930589068396568"
+        },
+        {
+          "file": "apps/api/dist/apps/api/src/app.module.d.ts",
+          "hash": "9273536277278844032"
+        },
+        {
+          "file": "apps/api/dist/apps/api/src/app.module.js",
+          "hash": "15416192809400037946",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/apps/api/src/app.module.js.map",
+          "hash": "10245323346869623078"
+        },
+        {
+          "file": "apps/api/dist/apps/api/src/index.d.ts",
+          "hash": "8960084164971230886"
+        },
+        {
+          "file": "apps/api/dist/apps/api/src/index.js",
+          "hash": "8633780775549197216",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "apps/api/dist/apps/api/src/index.js.map",
+          "hash": "12539564406504596824"
+        },
+        {
+          "file": "apps/api/dist/apps/api/src/main.d.ts",
+          "hash": "11104622809057260450"
+        },
+        {
+          "file": "apps/api/dist/apps/api/src/main.js",
+          "hash": "16333363745436408845",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/core",
+            "npm:@nestjs/platform-fastify",
+            "npm:dotenv"
+          ]
+        },
+        {
+          "file": "apps/api/dist/apps/api/src/main.js.map",
+          "hash": "15593449971689557896"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/config/config.module.d.ts",
+          "hash": "12661561523557922360"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/config/config.module.js",
+          "hash": "10443269513617019004",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/config/config.module.js.map",
+          "hash": "2927318284686092666"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/config/config.service.d.ts",
+          "hash": "14487164545681215982"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/config/config.service.js",
+          "hash": "10699126412467081504",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common",
+            "npm:zod"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/config/config.service.js.map",
+          "hash": "16643781579647118119"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/config/index.d.ts",
+          "hash": "4084684767363596746"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/config/index.js",
+          "hash": "5075109832169787041",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/config/index.js.map",
+          "hash": "2736219096022351728"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/core.module.d.ts",
+          "hash": "2931848252101837058"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/core.module.js",
+          "hash": "375171103937091510",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/core.module.js.map",
+          "hash": "18316428966824513880"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/database/database.module.d.ts",
+          "hash": "6058556182082659432"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/database/database.module.js",
+          "hash": "14336565398422683334",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/database/database.module.js.map",
+          "hash": "8394710647511244598"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/database/database.service.d.ts",
+          "hash": "14757861871623255026",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/database/database.service.js",
+          "hash": "14901870555385965333",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common",
+            "npm:drizzle-orm",
+            "npm:pg"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/database/database.service.js.map",
+          "hash": "10846524173470256290"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/database/index.d.ts",
+          "hash": "6917711250687518747"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/database/index.js",
+          "hash": "512635903611705212",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/database/index.js.map",
+          "hash": "16462117851283715476"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/decorators/index.d.ts",
+          "hash": "17310788741458469841"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/decorators/index.js",
+          "hash": "9065414241395846706",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/decorators/index.js.map",
+          "hash": "15586800720483790547"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/decorators/transaction.decorator.d.ts",
+          "hash": "14980305321571311011"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/decorators/transaction.decorator.js",
+          "hash": "17919340461616768950"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/decorators/transaction.decorator.js.map",
+          "hash": "7515648943288944613"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/exceptions/http.exception.d.ts",
+          "hash": "2756283856219604735",
+          "deps": [
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/exceptions/http.exception.js",
+          "hash": "6729185847588300698",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common",
+            "npm:http-errors"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/exceptions/http.exception.js.map",
+          "hash": "460908886258222088"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/exceptions/index.d.ts",
+          "hash": "1919712528180903547"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/exceptions/index.js",
+          "hash": "5213249404327754902",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/exceptions/index.js.map",
+          "hash": "11790092405416330926"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/index.d.ts",
+          "hash": "12529798348099234053"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/index.js",
+          "hash": "18196423135785270033",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/index.js.map",
+          "hash": "9060711047010587164"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/utils/index.d.ts",
+          "hash": "3909561414779209001"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/utils/index.js",
+          "hash": "5272435073725567925",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/utils/index.js.map",
+          "hash": "10679197228339746750"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/utils/pagination.d.ts",
+          "hash": "10701603687531968671"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/utils/pagination.js",
+          "hash": "12841181911003364100"
+        },
+        {
+          "file": "apps/api/dist/libs/core/src/utils/pagination.js.map",
+          "hash": "5542977342013149666"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/application/order.service.d.ts",
+          "hash": "17093955311771397888"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/application/order.service.js",
+          "hash": "5695495153929966759",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/application/order.service.js.map",
+          "hash": "7150326478898234156"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/domain/order.entity.d.ts",
+          "hash": "13207528192878349801"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/domain/order.entity.js",
+          "hash": "1451312214002212195"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/domain/order.entity.js.map",
+          "hash": "14872574349674441247"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/domain/order.repository.interface.d.ts",
+          "hash": "12622744529172364544"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/domain/order.repository.interface.js",
+          "hash": "10929893346272577248"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/domain/order.repository.interface.js.map",
+          "hash": "9584870915539524915"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/index.d.ts",
+          "hash": "7127721900036698197"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/index.js",
+          "hash": "123023807817937250",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/index.js.map",
+          "hash": "8049584473029151416"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/infrastructure/order.repository.d.ts",
+          "hash": "2339493389208787553"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/infrastructure/order.repository.js",
+          "hash": "4649293325259227053",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common",
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/infrastructure/order.repository.js.map",
+          "hash": "11979129587438137752"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/order.module.d.ts",
+          "hash": "4760082281484545932"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/order.module.js",
+          "hash": "11173158043552115030",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/order.module.js.map",
+          "hash": "11165143487588848504"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/presentation/order.controller.d.ts",
+          "hash": "13083943644130242381"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/presentation/order.controller.js",
+          "hash": "1571529427178198050",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/presentation/order.controller.js.map",
+          "hash": "18239522402931207240"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/presentation/order.dto.d.ts",
+          "hash": "13795990439273484192",
+          "deps": [
+            "npm:zod",
+            "npm:nestjs-zod"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/presentation/order.dto.js",
+          "hash": "11731202348842800263",
+          "deps": [
+            "npm:zod",
+            "npm:nestjs-zod"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/order/src/presentation/order.dto.js.map",
+          "hash": "13364524818850092065"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/application/product.service.d.ts",
+          "hash": "15000196811541079410"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/application/product.service.js",
+          "hash": "12862140996850583012",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/application/product.service.js.map",
+          "hash": "15067959707637646216"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/domain/product.entity.d.ts",
+          "hash": "4241890322642889858"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/domain/product.entity.js",
+          "hash": "10309800067384624886"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/domain/product.entity.js.map",
+          "hash": "1686449924669381090"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/domain/product.repository.interface.d.ts",
+          "hash": "3632600496188654702"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/domain/product.repository.interface.js",
+          "hash": "8399466319698322661"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/domain/product.repository.interface.js.map",
+          "hash": "13563952334678761962"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/index.d.ts",
+          "hash": "12999048713921489970"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/index.js",
+          "hash": "12434350760767624952",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/index.js.map",
+          "hash": "14561044945109904610"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/infrastructure/product.repository.d.ts",
+          "hash": "14779877651517533684"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/infrastructure/product.repository.js",
+          "hash": "7485796703363456659",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common",
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/infrastructure/product.repository.js.map",
+          "hash": "15186546855350729757"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/presentation/product.controller.d.ts",
+          "hash": "7221921495653649701"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/presentation/product.controller.js",
+          "hash": "12739901288598478751",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/presentation/product.controller.js.map",
+          "hash": "9349799824696209779"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/presentation/product.dto.d.ts",
+          "hash": "12349313350989476726",
+          "deps": [
+            "npm:zod",
+            "npm:nestjs-zod"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/presentation/product.dto.js",
+          "hash": "16981938800321184597",
+          "deps": [
+            "npm:zod",
+            "npm:nestjs-zod"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/presentation/product.dto.js.map",
+          "hash": "8110605282890309199"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/product.module.d.ts",
+          "hash": "3382386107664397026"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/product.module.js",
+          "hash": "5684674075771263790",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/product/src/product.module.js.map",
+          "hash": "7148290520284683225"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/application/user.service.d.ts",
+          "hash": "8040463483987286628"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/application/user.service.js",
+          "hash": "8530273063163438924",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/application/user.service.js.map",
+          "hash": "13084364284149839318"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/domain/user.entity.d.ts",
+          "hash": "12116030879628176203"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/domain/user.entity.js",
+          "hash": "3350390678671172010"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/domain/user.entity.js.map",
+          "hash": "4482220249420395779"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/domain/user.repository.interface.d.ts",
+          "hash": "16770341957856679509"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/domain/user.repository.interface.js",
+          "hash": "6946174028373636500"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/domain/user.repository.interface.js.map",
+          "hash": "12298502135846609276"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/index.d.ts",
+          "hash": "869617384275407145"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/index.js",
+          "hash": "12679000054613328813",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/index.js.map",
+          "hash": "14306305849531353771"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/infrastructure/user.repository.d.ts",
+          "hash": "469193946618629798"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/infrastructure/user.repository.js",
+          "hash": "10081271139999639213",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common",
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/infrastructure/user.repository.js.map",
+          "hash": "12969859598930867430"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/presentation/user.controller.d.ts",
+          "hash": "5923971742202468589"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/presentation/user.controller.js",
+          "hash": "11855608860196833797",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/presentation/user.controller.js.map",
+          "hash": "535266321966845890"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/presentation/user.dto.d.ts",
+          "hash": "5556071258699492519",
+          "deps": [
+            "npm:zod",
+            "npm:nestjs-zod"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/presentation/user.dto.js",
+          "hash": "8634176339766026785",
+          "deps": [
+            "npm:zod",
+            "npm:nestjs-zod"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/presentation/user.dto.js.map",
+          "hash": "7029060409144442652"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/user.module.d.ts",
+          "hash": "16785057180092838232"
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/user.module.js",
+          "hash": "17810469843070784576",
+          "deps": [
+            "npm:tslib",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/domain/user/src/user.module.js.map",
+          "hash": "6064172721944468925"
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/index.d.ts",
+          "hash": "5327352880994168165"
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/index.js",
+          "hash": "6240440938887048504",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/index.js.map",
+          "hash": "15893827283785707906"
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/index.d.ts",
+          "hash": "14906126938954047120",
+          "deps": [
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/index.js",
+          "hash": "7528564818111524174",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/index.js.map",
+          "hash": "4080896607073738322"
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/order.schema.d.ts",
+          "hash": "8946920770023811997",
+          "deps": [
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/order.schema.js",
+          "hash": "18011324614794315550",
+          "deps": [
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/order.schema.js.map",
+          "hash": "9408084089213379976"
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/orderItem.schema.d.ts",
+          "hash": "3539264712351507550",
+          "deps": [
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/orderItem.schema.js",
+          "hash": "16182530363635255497",
+          "deps": [
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/orderItem.schema.js.map",
+          "hash": "8006589604463596593"
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/product.schema.d.ts",
+          "hash": "15590719160476776680",
+          "deps": [
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/product.schema.js",
+          "hash": "11678641757012722361",
+          "deps": [
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/product.schema.js.map",
+          "hash": "4587842415329094112"
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/user.schema.d.ts",
+          "hash": "2359239800048410308",
+          "deps": [
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/user.schema.js",
+          "hash": "18201235268736114513",
+          "deps": [
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/infrastructure/database/src/schema/user.schema.js.map",
+          "hash": "340131508743841319"
+        },
+        {
+          "file": "apps/api/dist/libs/shared/src/index.d.ts",
+          "hash": "14083711990029283195"
+        },
+        {
+          "file": "apps/api/dist/libs/shared/src/index.js",
+          "hash": "17235824444651805192",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/shared/src/index.js.map",
+          "hash": "12256580634559755356"
+        },
+        {
+          "file": "apps/api/dist/libs/shared/src/types/index.d.ts",
+          "hash": "12065040922281587174"
+        },
+        {
+          "file": "apps/api/dist/libs/shared/src/types/index.js",
+          "hash": "6841002462772190948"
+        },
+        {
+          "file": "apps/api/dist/libs/shared/src/types/index.js.map",
+          "hash": "2746458157996135285"
+        },
+        {
+          "file": "apps/api/dist/libs/shared/src/zod/index.d.ts",
+          "hash": "5002980522956339687",
+          "deps": [
+            "npm:zod"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/shared/src/zod/index.js",
+          "hash": "4872412309483488628",
+          "deps": [
+            "npm:zod"
+          ]
+        },
+        {
+          "file": "apps/api/dist/libs/shared/src/zod/index.js.map",
+          "hash": "3506645454983310684"
+        },
+        {
+          "file": "apps/api/jest.config.ts",
+          "hash": "12990850401273307243"
+        },
+        {
+          "file": "apps/api/project.json",
+          "hash": "16633865735841049277"
+        },
+        {
+          "file": "apps/api/src/app.module.ts",
+          "hash": "11698948554569147796",
+          "deps": [
+            "npm:@nestjs/common",
+            "domain-user",
+            "domain-product",
+            "domain-order",
+            "core"
+          ]
+        },
+        {
+          "file": "apps/api/src/index.ts",
+          "hash": "8960084164971230886"
+        },
+        {
+          "file": "apps/api/src/main.ts",
+          "hash": "2883855782772786756",
+          "deps": [
+            "npm:@nestjs/core",
+            "npm:@nestjs/platform-fastify",
+            "npm:dotenv"
+          ]
+        },
+        {
+          "file": "apps/api/tsconfig.app.json",
+          "hash": "13143342532743415698"
+        },
+        {
+          "file": "apps/api/tsconfig.json",
+          "hash": "5460173445064693369"
+        },
+        {
+          "file": "apps/api/tsconfig.spec.json",
+          "hash": "3560699774502100667"
+        }
+      ],
+      "domain-order": [
+        {
+          "file": "libs/domain/order/jest.config.ts",
+          "hash": "15679007286299183455"
+        },
+        {
+          "file": "libs/domain/order/project.json",
+          "hash": "1703773722673698152"
+        },
+        {
+          "file": "libs/domain/order/src/application/index.ts",
+          "hash": "2112922007749933171"
+        },
+        {
+          "file": "libs/domain/order/src/application/order.service.ts",
+          "hash": "16852702312946230861",
+          "deps": [
+            "npm:@nestjs/common",
+            "infrastructure-database"
+          ]
+        },
+        {
+          "file": "libs/domain/order/src/domain/index.ts",
+          "hash": "11510181730242609226"
+        },
+        {
+          "file": "libs/domain/order/src/domain/order.entity.ts",
+          "hash": "9580951087572152220",
+          "deps": [
+            "infrastructure-database"
+          ]
+        },
+        {
+          "file": "libs/domain/order/src/domain/order.repository.interface.ts",
+          "hash": "3594747060970809436",
+          "deps": [
+            "infrastructure-database"
+          ]
+        },
+        {
+          "file": "libs/domain/order/src/index.ts",
+          "hash": "7127721900036698197"
+        },
+        {
+          "file": "libs/domain/order/src/infrastructure/index.ts",
+          "hash": "16191204135605215375"
+        },
+        {
+          "file": "libs/domain/order/src/infrastructure/order.repository.ts",
+          "hash": "15215055960184478478",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:drizzle-orm",
+            "core",
+            "infrastructure-database"
+          ]
+        },
+        {
+          "file": "libs/domain/order/src/order.module.ts",
+          "hash": "7288959235073646170",
+          "deps": [
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "libs/domain/order/src/presentation/index.ts",
+          "hash": "10268439228580867831"
+        },
+        {
+          "file": "libs/domain/order/src/presentation/order.controller.ts",
+          "hash": "5574926876197638823",
+          "deps": [
+            "npm:@nestjs/common",
+            "core"
+          ]
+        },
+        {
+          "file": "libs/domain/order/src/presentation/order.dto.ts",
+          "hash": "14264363984186724958",
+          "deps": [
+            "npm:zod",
+            "npm:nestjs-zod",
+            "shared"
+          ]
+        },
+        {
+          "file": "libs/domain/order/tsconfig.json",
+          "hash": "6900689797472596984"
+        },
+        {
+          "file": "libs/domain/order/tsconfig.lib.json",
+          "hash": "7980230465355134985"
+        },
+        {
+          "file": "libs/domain/order/tsconfig.spec.json",
+          "hash": "16324862003878039728"
+        }
+      ],
+      "domain-user": [
+        {
+          "file": "libs/domain/user/jest.config.ts",
+          "hash": "17774400453198846555"
+        },
+        {
+          "file": "libs/domain/user/project.json",
+          "hash": "15278198396156492001"
+        },
+        {
+          "file": "libs/domain/user/src/application/index.ts",
+          "hash": "9136836467915182157"
+        },
+        {
+          "file": "libs/domain/user/src/application/user.service.ts",
+          "hash": "9911506429486605024",
+          "deps": [
+            "npm:@nestjs/common",
+            "infrastructure-database"
+          ]
+        },
+        {
+          "file": "libs/domain/user/src/domain/index.ts",
+          "hash": "12930087398122272268"
+        },
+        {
+          "file": "libs/domain/user/src/domain/user.entity.ts",
+          "hash": "8478907100942329102",
+          "deps": [
+            "infrastructure-database"
+          ]
+        },
+        {
+          "file": "libs/domain/user/src/domain/user.repository.interface.ts",
+          "hash": "6778643880487851072",
+          "deps": [
+            "infrastructure-database"
+          ]
+        },
+        {
+          "file": "libs/domain/user/src/index.ts",
+          "hash": "869617384275407145"
+        },
+        {
+          "file": "libs/domain/user/src/infrastructure/index.ts",
+          "hash": "8621362747864839423"
+        },
+        {
+          "file": "libs/domain/user/src/infrastructure/user.repository.ts",
+          "hash": "10987716449148493210",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:drizzle-orm",
+            "core",
+            "infrastructure-database"
+          ]
+        },
+        {
+          "file": "libs/domain/user/src/presentation/index.ts",
+          "hash": "7430101072626397620"
+        },
+        {
+          "file": "libs/domain/user/src/presentation/user.controller.ts",
+          "hash": "17897157090679190873",
+          "deps": [
+            "npm:@nestjs/common",
+            "core"
+          ]
+        },
+        {
+          "file": "libs/domain/user/src/presentation/user.dto.ts",
+          "hash": "7683944860574674513",
+          "deps": [
+            "npm:zod",
+            "npm:nestjs-zod",
+            "shared"
+          ]
+        },
+        {
+          "file": "libs/domain/user/src/user.module.ts",
+          "hash": "5202509512359125659",
+          "deps": [
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "libs/domain/user/tsconfig.json",
+          "hash": "6900689797472596984"
+        },
+        {
+          "file": "libs/domain/user/tsconfig.lib.json",
+          "hash": "7980230465355134985"
+        },
+        {
+          "file": "libs/domain/user/tsconfig.spec.json",
+          "hash": "16324862003878039728"
+        }
+      ],
+      "core": [
+        {
+          "file": "libs/core/jest.config.ts",
+          "hash": "16165069264068741967"
+        },
+        {
+          "file": "libs/core/project.json",
+          "hash": "4146738739214448691"
+        },
+        {
+          "file": "libs/core/src/config/config.module.ts",
+          "hash": "4345783144011392844",
+          "deps": [
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "libs/core/src/config/config.service.ts",
+          "hash": "8119941770988530417",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:zod"
+          ]
+        },
+        {
+          "file": "libs/core/src/config/index.ts",
+          "hash": "4084684767363596746"
+        },
+        {
+          "file": "libs/core/src/core.module.ts",
+          "hash": "14789372958359467030",
+          "deps": [
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "libs/core/src/database/database.module.ts",
+          "hash": "14667796598438214789",
+          "deps": [
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "libs/core/src/database/database.service.ts",
+          "hash": "10853007211524577714",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:drizzle-orm",
+            "npm:pg",
+            "infrastructure-database"
+          ]
+        },
+        {
+          "file": "libs/core/src/database/index.ts",
+          "hash": "6917711250687518747"
+        },
+        {
+          "file": "libs/core/src/decorators/index.ts",
+          "hash": "17310788741458469841"
+        },
+        {
+          "file": "libs/core/src/decorators/transaction.decorator.ts",
+          "hash": "12546802870808553128"
+        },
+        {
+          "file": "libs/core/src/exceptions/http.exception.ts",
+          "hash": "2782151948107263354",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:http-errors"
+          ]
+        },
+        {
+          "file": "libs/core/src/exceptions/index.ts",
+          "hash": "1919712528180903547"
+        },
+        {
+          "file": "libs/core/src/index.ts",
+          "hash": "12529798348099234053"
+        },
+        {
+          "file": "libs/core/src/utils/index.ts",
+          "hash": "3909561414779209001"
+        },
+        {
+          "file": "libs/core/src/utils/pagination.ts",
+          "hash": "5275046071268824434"
+        },
+        {
+          "file": "libs/core/tsconfig.json",
+          "hash": "793498117659501542"
+        },
+        {
+          "file": "libs/core/tsconfig.lib.json",
+          "hash": "11730326215949408316"
+        },
+        {
+          "file": "libs/core/tsconfig.spec.json",
+          "hash": "8549646423583871521"
+        }
+      ],
+      "infrastructure-database": [
+        {
+          "file": "libs/infrastructure/database/jest.config.ts",
+          "hash": "15139735540938311732"
+        },
+        {
+          "file": "libs/infrastructure/database/project.json",
+          "hash": "15155447264521150588"
+        },
+        {
+          "file": "libs/infrastructure/database/src/index.ts",
+          "hash": "5327352880994168165"
+        },
+        {
+          "file": "libs/infrastructure/database/src/schema/index.ts",
+          "hash": "11380031091735919983"
+        },
+        {
+          "file": "libs/infrastructure/database/src/schema/order.schema.ts",
+          "hash": "11955857022727071790",
+          "deps": [
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "libs/infrastructure/database/src/schema/orderItem.schema.ts",
+          "hash": "10660292344035830292",
+          "deps": [
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "libs/infrastructure/database/src/schema/product.schema.ts",
+          "hash": "18107975547713781825",
+          "deps": [
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "libs/infrastructure/database/src/schema/user.schema.ts",
+          "hash": "16931125846112629852",
+          "deps": [
+            "npm:drizzle-orm"
+          ]
+        },
+        {
+          "file": "libs/infrastructure/database/tsconfig.json",
+          "hash": "6900689797472596984"
+        },
+        {
+          "file": "libs/infrastructure/database/tsconfig.lib.json",
+          "hash": "7980230465355134985"
+        },
+        {
+          "file": "libs/infrastructure/database/tsconfig.spec.json",
+          "hash": "16324862003878039728"
+        }
+      ]
+    }
+  },
+  "externalNodesHash": "13192615087840274961"
+}
