@@ -1,21 +1,21 @@
-import Fastify from 'fastify';
-import cors from '@fastify/cors';
-import helmet from '@fastify/helmet';
-import compress from '@fastify/compress';
-import { config } from './config/index';
-import { registerPlugins, registerRoutes } from './app';
+import Fastify, { type FastifyError } from "fastify";
+import cors from "@fastify/cors";
+import helmet from "@fastify/helmet";
+import compress from "@fastify/compress";
+import { config } from "./config/index";
+import { registerPlugins, registerRoutes } from "./app";
 
 // Create Fastify instance
 const fastify = Fastify({
   logger: {
-    level: config.NODE_ENV === 'production' ? 'info' : 'debug',
+    level: config.NODE_ENV === "production" ? "info" : "debug",
     transport:
-      config.NODE_ENV === 'development'
+      config.NODE_ENV === "development"
         ? {
-            target: 'pino-pretty',
+            target: "pino-pretty",
             options: {
-              translateTime: 'HH:MM:ss Z',
-              ignore: 'pid,hostname',
+              translateTime: "HH:MM:ss Z",
+              ignore: "pid,hostname",
             },
           }
         : undefined,
@@ -27,19 +27,19 @@ async function setupServer() {
   try {
     // CORS
     await fastify.register(cors, {
-      origin: config.NODE_ENV === 'production' ? false : true, // Configure properly for production
+      origin: config.NODE_ENV === "production" ? false : true, // Configure properly for production
       credentials: true,
     });
 
     // Security headers
     await fastify.register(helmet, {
-      contentSecurityPolicy: config.NODE_ENV === 'production' ? undefined : false,
+      contentSecurityPolicy: config.NODE_ENV === "production" ? undefined : false,
     });
 
     // Compression
     await fastify.register(compress, {
       global: true,
-      encodings: ['gzip', 'deflate'],
+      encodings: ["gzip", "deflate"],
     });
 
     // Register custom plugins (Drizzle, etc.)
@@ -49,7 +49,7 @@ async function setupServer() {
     await registerRoutes(fastify);
 
     // Global error handler
-    fastify.setErrorHandler((error, request, reply) => {
+    fastify.setErrorHandler((error: FastifyError, _request, reply) => {
       fastify.log.error(error);
 
       // Handle http-errors
@@ -63,7 +63,7 @@ async function setupServer() {
       // Handle validation errors
       if (error.validation) {
         return reply.status(400).send({
-          error: 'Validation error',
+          error: "Validation error",
           details: error.validation,
           statusCode: 400,
         });
@@ -71,7 +71,7 @@ async function setupServer() {
 
       // Default error response
       return reply.status(500).send({
-        error: config.NODE_ENV === 'production' ? 'Internal Server Error' : error.message,
+        error: config.NODE_ENV === "production" ? "Internal Server Error" : error.message,
         statusCode: 500,
       });
     });
@@ -97,14 +97,16 @@ async function setupServer() {
 }
 
 // Handle shutdown gracefully
-const signals = ['SIGINT', 'SIGTERM'];
+const signals = ["SIGINT", "SIGTERM"];
 signals.forEach((signal) => {
-  process.on(signal, async () => {
-    console.log(`\n${signal} received, closing server gracefully...`);
-    await fastify.close();
-    process.exit(0);
+  process.on(signal, () => {
+    void (async () => {
+      console.log(`\n${signal} received, closing server gracefully...`);
+      await fastify.close();
+      process.exit(0);
+    })();
   });
 });
 
 // Start the server
-setupServer();
+void setupServer();

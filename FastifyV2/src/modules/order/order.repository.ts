@@ -1,6 +1,6 @@
-import { eq, and } from 'drizzle-orm';
-import { Database } from '../../db/index';
-import { orders, orderItems, products, users, NewOrder, NewOrderItem } from '../../db/schema/index';
+import { eq } from "drizzle-orm";
+import { Database } from "../../db/index";
+import { orders, orderItems, products, users, NewOrder, NewOrderItem } from "../../db/schema/index";
 
 export class OrderRepository {
   constructor(private db: Database) {}

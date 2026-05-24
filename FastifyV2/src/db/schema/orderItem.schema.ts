@@ -1,23 +1,23 @@
-import { pgTable, integer, numeric, primaryKey } from 'drizzle-orm/pg-core';
-import { relations } from 'drizzle-orm';
-import { orders } from './order.schema';
-import { products } from './product.schema';
+import { pgTable, integer, numeric, primaryKey } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { orders } from "./order.schema";
+import { products } from "./product.schema";
 
 export const orderItems = pgTable(
-  'order_items',
+  "order_items",
   {
-    orderId: integer('order_id')
+    orderId: integer("order_id")
       .notNull()
-      .references(() => orders.id, { onDelete: 'cascade' }),
-    productId: integer('product_id')
+      .references(() => orders.id, { onDelete: "cascade" }),
+    productId: integer("product_id")
       .notNull()
-      .references(() => products.id, { onDelete: 'restrict' }),
-    quantity: integer('quantity').notNull(),
-    priceAtPurchase: numeric('price_at_purchase', { precision: 10, scale: 2 }).notNull(),
+      .references(() => products.id, { onDelete: "restrict" }),
+    quantity: integer("quantity").notNull(),
+    priceAtPurchase: numeric("price_at_purchase", { precision: 10, scale: 2 }).notNull(),
   },
   (table) => ({
     pk: primaryKey({ columns: [table.orderId, table.productId] }),
-  })
+  }),
 );
 
 export const orderItemsRelations = relations(orderItems, ({ one }) => ({

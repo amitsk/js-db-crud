@@ -5,12 +5,14 @@
 This project includes **TWO complete implementations** of the same API:
 
 ### ⚡ Simple Version (Default, Recommended)
+
 - **13 files**, 650 lines
 - Direct route handlers
 - Minimal boilerplate
 - 👉 **[README_SIMPLE.md](README_SIMPLE.md)** ← Start here!
 
 ### 🏗️ Complex Version (Enterprise Pattern)
+
 - **35 files**, 2000+ lines
 - Controller → Service → Repository
 - Full layer separation
@@ -18,13 +20,13 @@ This project includes **TWO complete implementations** of the same API:
 
 ## 📊 Quick Comparison
 
-| Aspect | Simple | Complex |
-|--------|--------|---------|
-| **Files** | 13 | 35 |
-| **Lines** | 650 | 2000+ |
-| **Layers** | 1 | 4 |
-| **Learning Curve** | Easy | Medium |
-| **Best For** | 90% of APIs | Large teams |
+| Aspect             | Simple      | Complex     |
+| ------------------ | ----------- | ----------- |
+| **Files**          | 13          | 35          |
+| **Lines**          | 650         | 2000+       |
+| **Layers**         | 1           | 4           |
+| **Learning Curve** | Easy        | Medium      |
+| **Best For**       | 90% of APIs | Large teams |
 
 ## 🚀 Quick Start (Simple Version)
 
@@ -96,6 +98,7 @@ npm run start:complex    # Production with complex
 ## 🏆 Recommendation
 
 **Use Simple Version** (default) unless you specifically need:
+
 - Large team coordination (5+ developers)
 - Isolated unit testing
 - Multiple data sources per entity

@@ -26,15 +26,15 @@ Is this a standard CRUD API?
 
 ## 📊 Side-by-Side
 
-| Question | Simple | Complex |
-|----------|--------|---------|
-| **Lines of code** | 650 | 2000+ |
-| **Files** | 13 | 35 |
-| **Learning curve** | Easy | Medium |
-| **Time to add feature** | Fast | Slow |
-| **Understand flow** | 1 file | 4 files |
-| **Boilerplate** | Minimal | Lots |
-| **Testing strategy** | Integration | Unit + Integration |
+| Question                | Simple      | Complex            |
+| ----------------------- | ----------- | ------------------ |
+| **Lines of code**       | 650         | 2000+              |
+| **Files**               | 13          | 35                 |
+| **Learning curve**      | Easy        | Medium             |
+| **Time to add feature** | Fast        | Slow               |
+| **Understand flow**     | 1 file      | 4 files            |
+| **Boilerplate**         | Minimal     | Lots               |
+| **Testing strategy**    | Integration | Unit + Integration |
 
 ## ✅ Use Simple When...
 
@@ -86,13 +86,13 @@ Is this a standard CRUD API?
 
 ```typescript
 // Day 1: Simple version
-fastify.post('/api/users', async (request, reply) => {
+fastify.post("/api/users", async (request, reply) => {
   // Validation
   const body = request.body;
 
   // Business logic
   if (await emailExists(body.email)) {
-    throw createError(400, 'Email exists');
+    throw createError(400, "Email exists");
   }
 
   // Database
@@ -109,12 +109,12 @@ fastify.post('/api/users', async (request, reply) => {
 // Refactor 1: Extract to function
 async function createUser(db, input) {
   if (await emailExists(db, input.email)) {
-    throw createError(400, 'Email exists');
+    throw createError(400, "Email exists");
   }
   return await db.insert(users).values(input).returning();
 }
 
-fastify.post('/api/users', async (request, reply) => {
+fastify.post("/api/users", async (request, reply) => {
   const user = await createUser(fastify.db, request.body);
   return reply.status(201).send(user);
 });
@@ -129,7 +129,7 @@ class UserService {
 
   async createUser(input) {
     if (await this.repository.findByEmail(input.email)) {
-      throw createError(400, 'Email exists');
+      throw createError(400, "Email exists");
     }
     return await this.repository.create(input);
   }
@@ -139,6 +139,7 @@ class UserService {
 ## 🎓 Real-World Examples
 
 ### Simple Works For:
+
 - Todo app API
 - Blog API
 - E-commerce product catalog
@@ -147,6 +148,7 @@ class UserService {
 - Most SaaS APIs
 
 ### Complex Needed For:
+
 - Banking transaction system (complex rules)
 - Insurance policy pricing (heavy calculations)
 - Multi-tenant SaaS with different data sources
@@ -212,27 +214,28 @@ The simple version is ready to go.
 ## 🧪 Testing
 
 ### Simple Version
+
 ```typescript
 // Integration test (test through HTTP)
-test('create user', async () => {
+test("create user", async () => {
   const response = await app.inject({
-    method: 'POST',
-    url: '/api/users',
-    payload: { email: 'test@test.com', name: 'Test' }
+    method: "POST",
+    url: "/api/users",
+    payload: { email: "test@test.com", name: "Test" },
   });
   expect(response.statusCode).toBe(201);
 });
 ```
 
 ### Complex Version
+
 ```typescript
 // Unit test (test service in isolation)
-test('createUser throws on duplicate email', async () => {
+test("createUser throws on duplicate email", async () => {
   const mockRepo = { findByEmail: () => Promise.resolve({ id: 1 }) };
   const service = new UserService(mockRepo);
 
-  await expect(service.createUser({ email: 'test@test.com' }))
-    .rejects.toThrow('Email exists');
+  await expect(service.createUser({ email: "test@test.com" })).rejects.toThrow("Email exists");
 });
 ```
 

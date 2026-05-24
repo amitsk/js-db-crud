@@ -5,10 +5,12 @@
 I've created TWO versions of the FastifyV2 API with different architectural approaches:
 
 ### 🏗️ Complex Version (Original)
+
 **Files**: Controller + Service + Repository per module
 **Total LOC**: ~2000+ lines across 35 files
 
 ### ⚡ Simple Version (New)
+
 **Files**: Just Routes per module
 **Total LOC**: ~500 lines across 10 files
 
@@ -17,6 +19,7 @@ I've created TWO versions of the FastifyV2 API with different architectural appr
 ## File Comparison
 
 ### Complex Version Structure
+
 ```
 modules/user/
 ├── user.routes.ts          (150 lines - just route definitions)
@@ -26,14 +29,17 @@ modules/user/
 ├── user.schema.ts          (40 lines - validation)
 └── index.ts                (5 lines - exports)
 ```
+
 **Total**: 435 lines across 6 files
 
 ### Simple Version Structure
+
 ```
 modules/user/
 ├── user.routes.simple.ts   (110 lines - everything in one file)
 └── user.schema.ts          (40 lines - validation, reused)
 ```
+
 **Total**: 150 lines across 2 files
 
 **Reduction**: 65% fewer lines, 67% fewer files
@@ -53,6 +59,7 @@ Validation  HTTP     Business    DB Queries
 ```
 
 **Pros:**
+
 - ✅ Separation of concerns
 - ✅ Easy to test each layer independently
 - ✅ Follows enterprise patterns
@@ -60,6 +67,7 @@ Validation  HTTP     Business    DB Queries
 - ✅ Can swap data sources easily
 
 **Cons:**
+
 - ❌ Over-engineered for simple APIs
 - ❌ Lots of boilerplate
 - ❌ More files to maintain
@@ -76,6 +84,7 @@ Validation  Everything
 ```
 
 **Pros:**
+
 - ✅ Minimal boilerplate
 - ✅ Easy to read and understand
 - ✅ Faster development
@@ -83,6 +92,7 @@ Validation  Everything
 - ✅ Less indirection
 
 **Cons:**
+
 - ❌ Harder to unit test (need integration tests)
 - ❌ Can get messy with complex logic
 - ❌ Less reusable across different routes
@@ -97,6 +107,7 @@ Validation  Everything
 #### Complex Version (3 files)
 
 **user.controller.ts**
+
 ```typescript
 async getUser(
   request: FastifyRequest<{ Params: UserIdParam }>,
@@ -109,6 +120,7 @@ async getUser(
 ```
 
 **user.service.ts**
+
 ```typescript
 async getUserById(id: number) {
   const user = await this.repository.findById(id);
@@ -121,6 +133,7 @@ async getUserById(id: number) {
 ```
 
 **user.repository.ts**
+
 ```typescript
 async findById(id: number) {
   const result = await this.db.select().from(users).where(eq(users.id, id)).limit(1);
@@ -133,18 +146,23 @@ async findById(id: number) {
 #### Simple Version (1 file)
 
 **user.routes.simple.ts**
+
 ```typescript
-fastify.get('/:id', {
-  schema: { params: userIdParamSchema },
-}, async (request) => {
-  const { id } = request.params as any;
+fastify.get(
+  "/:id",
+  {
+    schema: { params: userIdParamSchema },
+  },
+  async (request) => {
+    const { id } = request.params as any;
 
-  const [user] = await fastify.db.select().from(users).where(eq(users.id, id)).limit(1);
-  if (!user) throw createError(404, 'User not found');
+    const [user] = await fastify.db.select().from(users).where(eq(users.id, id)).limit(1);
+    if (!user) throw createError(404, "User not found");
 
-  const { passwordHash, ...userWithoutPassword } = user;
-  return userWithoutPassword;
-});
+    const { passwordHash, ...userWithoutPassword } = user;
+    return userWithoutPassword;
+  },
+);
 ```
 
 **Total**: ~9 lines in 1 file
@@ -156,6 +174,7 @@ fastify.get('/:id', {
 ## When to Use Each
 
 ### Use Complex Version When:
+
 - 🏢 Large enterprise application
 - 👥 Multiple developers/teams
 - 🧪 Extensive unit testing required
@@ -164,6 +183,7 @@ fastify.get('/:id', {
 - 🔀 Multiple data sources (DB, cache, external APIs)
 
 ### Use Simple Version When:
+
 - 🚀 Rapid prototyping / MVP
 - 👤 Solo developer or small team
 - 📦 Simple CRUD operations
@@ -186,6 +206,7 @@ For **FastifyV2**, I recommend the **Simple Version** because:
 ### When to Refactor to Complex
 
 Refactor when you encounter:
+
 - Same logic duplicated across 3+ routes
 - Complex validation/business rules
 - Need to mock database for unit tests
@@ -197,12 +218,14 @@ Refactor when you encounter:
 ## Migration Path
 
 ### Complex → Simple
+
 1. Copy logic from Service + Repository into Route handler
 2. Remove Controller, Service, Repository files
 3. Keep Schema files (validation)
 4. Update imports in app.ts
 
 ### Simple → Complex
+
 1. Extract database queries → Repository
 2. Extract business logic → Service
 3. Keep route handlers thin → Controller
@@ -212,20 +235,21 @@ Refactor when you encounter:
 
 ## File Counts
 
-| Item | Complex | Simple | Reduction |
-|------|---------|--------|-----------|
-| **User Module** | 6 files | 2 files | 67% |
-| **Product Module** | 6 files | 2 files | 67% |
-| **Order Module** | 6 files | 2 files | 67% |
-| **Infrastructure** | 8 files | 3 files | 62% |
-| **Total Files** | 35 files | 13 files | 63% |
-| **Total Lines** | ~2000 | ~650 | 67% |
+| Item               | Complex  | Simple   | Reduction |
+| ------------------ | -------- | -------- | --------- |
+| **User Module**    | 6 files  | 2 files  | 67%       |
+| **Product Module** | 6 files  | 2 files  | 67%       |
+| **Order Module**   | 6 files  | 2 files  | 67%       |
+| **Infrastructure** | 8 files  | 3 files  | 62%       |
+| **Total Files**    | 35 files | 13 files | 63%       |
+| **Total Lines**    | ~2000    | ~650     | 67%       |
 
 ---
 
 ## Performance
 
 Both versions have **identical performance** because:
+
 - Same database queries
 - Same validation logic
 - Same middleware stack
@@ -236,6 +260,7 @@ Both versions have **identical performance** because:
 ## Switching Between Versions
 
 ### Use Simple Version (Recommended)
+
 ```bash
 # In package.json, change:
 "dev": "tsx watch src/server.simple.ts"
@@ -243,6 +268,7 @@ Both versions have **identical performance** because:
 ```
 
 ### Use Complex Version
+
 ```bash
 # In package.json, change:
 "dev": "tsx watch src/server.ts"
@@ -250,6 +276,7 @@ Both versions have **identical performance** because:
 ```
 
 Both versions:
+
 - Use the same database schema
 - Use the same validation schemas
 - Have identical API contracts
@@ -262,6 +289,7 @@ Both versions:
 **Start with Simple, refactor if needed.**
 
 The simple version is:
+
 - ✅ Easier to understand
 - ✅ Faster to develop
 - ✅ Less code to maintain
@@ -273,15 +301,15 @@ You can always refactor later when complexity demands it. Don't prematurely opti
 
 ## Summary
 
-| Aspect | Complex | Simple | Winner |
-|--------|---------|--------|--------|
-| Lines of Code | 2000+ | 650 | ⚡ Simple |
-| Files | 35 | 13 | ⚡ Simple |
-| Understandability | Medium | High | ⚡ Simple |
-| Testability | High | Medium | 🏗️ Complex |
-| Reusability | High | Low | 🏗️ Complex |
-| Development Speed | Slow | Fast | ⚡ Simple |
-| Scalability | High | Medium | 🏗️ Complex |
-| Maintenance | Medium | Easy | ⚡ Simple |
+| Aspect            | Complex | Simple | Winner     |
+| ----------------- | ------- | ------ | ---------- |
+| Lines of Code     | 2000+   | 650    | ⚡ Simple  |
+| Files             | 35      | 13     | ⚡ Simple  |
+| Understandability | Medium  | High   | ⚡ Simple  |
+| Testability       | High    | Medium | 🏗️ Complex |
+| Reusability       | High    | Low    | 🏗️ Complex |
+| Development Speed | Slow    | Fast   | ⚡ Simple  |
+| Scalability       | High    | Medium | 🏗️ Complex |
+| Maintenance       | Medium  | Easy   | ⚡ Simple  |
 
 **Overall Winner for this project**: ⚡ **Simple Version**

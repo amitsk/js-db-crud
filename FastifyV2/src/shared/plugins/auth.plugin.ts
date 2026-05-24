@@ -1,5 +1,5 @@
-import fp from 'fastify-plugin';
-import { FastifyPluginAsync } from 'fastify';
+import fp from "fastify-plugin";
+import { FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify";
 
 /**
  * JWT Authentication Plugin (Stub)
@@ -19,10 +19,10 @@ import { FastifyPluginAsync } from 'fastify';
 
 const authPlugin: FastifyPluginAsync = async (fastify) => {
   // Stub: Add your JWT configuration here
-  fastify.log.info('🔐 Auth plugin registered (stub - implement JWT as needed)');
+  fastify.log.info("🔐 Auth plugin registered (stub - implement JWT as needed)");
 
   // Example decorator for checking authentication
-  fastify.decorate('authenticate', async (request: any, reply: any) => {
+  fastify.decorate("authenticate", async (_request: FastifyRequest, _reply: FastifyReply) => {
     // TODO: Implement JWT verification
     // const token = request.headers.authorization?.replace('Bearer ', '');
     // if (!token) {
@@ -33,5 +33,5 @@ const authPlugin: FastifyPluginAsync = async (fastify) => {
 };
 
 export default fp(authPlugin, {
-  name: 'auth-plugin',
+  name: "auth-plugin",
 });

@@ -1,7 +1,6 @@
-import { FastifyInstance } from 'fastify';
-import { Database } from '../db/index';
+import { Database } from "../db/index";
 
-declare module 'fastify' {
+declare module "fastify" {
   interface FastifyInstance {
     db: Database;
     tx: <T>(callback: (tx: Database) => Promise<T>) => Promise<T>;

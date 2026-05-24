@@ -1,12 +1,12 @@
-import { FastifyInstance } from 'fastify';
-import { ProductController } from './product.controller';
-import { ProductService } from './product.service';
+import { FastifyInstance } from "fastify";
+import { ProductController } from "./product.controller";
+import { ProductService } from "./product.service";
 import {
   createProductSchema,
   updateProductSchema,
   productIdParamSchema,
   listProductsQuerySchema,
-} from './product.schema';
+} from "./product.schema";
 
 export async function productRoutes(fastify: FastifyInstance) {
   const productService = new ProductService(fastify.db);
@@ -14,124 +14,124 @@ export async function productRoutes(fastify: FastifyInstance) {
 
   // GET /api/products - List all products with pagination
   fastify.get(
-    '/',
+    "/",
     {
       schema: {
         querystring: listProductsQuerySchema,
         response: {
           200: {
-            type: 'array',
+            type: "array",
             items: {
-              type: 'object',
+              type: "object",
               properties: {
-                id: { type: 'number' },
-                name: { type: 'string' },
-                description: { type: ['string', 'null'] },
-                price: { type: 'string' },
-                stock: { type: 'number' },
-                createdAt: { type: 'string' },
-                updatedAt: { type: 'string' },
+                id: { type: "number" },
+                name: { type: "string" },
+                description: { type: ["string", "null"] },
+                price: { type: "string" },
+                stock: { type: "number" },
+                createdAt: { type: "string" },
+                updatedAt: { type: "string" },
               },
             },
           },
         },
       },
     },
-    productController.listProducts.bind(productController)
+    productController.listProducts.bind(productController),
   );
 
   // GET /api/products/:id - Get product by ID
   fastify.get(
-    '/:id',
+    "/:id",
     {
       schema: {
         params: productIdParamSchema,
         response: {
           200: {
-            type: 'object',
+            type: "object",
             properties: {
-              id: { type: 'number' },
-              name: { type: 'string' },
-              description: { type: ['string', 'null'] },
-              price: { type: 'string' },
-              stock: { type: 'number' },
-              createdAt: { type: 'string' },
-              updatedAt: { type: 'string' },
+              id: { type: "number" },
+              name: { type: "string" },
+              description: { type: ["string", "null"] },
+              price: { type: "string" },
+              stock: { type: "number" },
+              createdAt: { type: "string" },
+              updatedAt: { type: "string" },
             },
           },
         },
       },
     },
-    productController.getProduct.bind(productController)
+    productController.getProduct.bind(productController),
   );
 
   // POST /api/products - Create new product
   fastify.post(
-    '/',
+    "/",
     {
       schema: {
         body: createProductSchema,
         response: {
           201: {
-            type: 'object',
+            type: "object",
             properties: {
-              id: { type: 'number' },
-              name: { type: 'string' },
-              description: { type: ['string', 'null'] },
-              price: { type: 'string' },
-              stock: { type: 'number' },
-              createdAt: { type: 'string' },
-              updatedAt: { type: 'string' },
+              id: { type: "number" },
+              name: { type: "string" },
+              description: { type: ["string", "null"] },
+              price: { type: "string" },
+              stock: { type: "number" },
+              createdAt: { type: "string" },
+              updatedAt: { type: "string" },
             },
           },
         },
       },
     },
-    productController.createProduct.bind(productController)
+    productController.createProduct.bind(productController),
   );
 
   // PUT /api/products/:id - Update product
   fastify.put(
-    '/:id',
+    "/:id",
     {
       schema: {
         params: productIdParamSchema,
         body: updateProductSchema,
         response: {
           200: {
-            type: 'object',
+            type: "object",
             properties: {
-              id: { type: 'number' },
-              name: { type: 'string' },
-              description: { type: ['string', 'null'] },
-              price: { type: 'string' },
-              stock: { type: 'number' },
-              createdAt: { type: 'string' },
-              updatedAt: { type: 'string' },
+              id: { type: "number" },
+              name: { type: "string" },
+              description: { type: ["string", "null"] },
+              price: { type: "string" },
+              stock: { type: "number" },
+              createdAt: { type: "string" },
+              updatedAt: { type: "string" },
             },
           },
         },
       },
     },
-    productController.updateProduct.bind(productController)
+    productController.updateProduct.bind(productController),
   );
 
   // DELETE /api/products/:id - Delete product
   fastify.delete(
-    '/:id',
+    "/:id",
     {
       schema: {
         params: productIdParamSchema,
         response: {
           200: {
-            type: 'object',
+            type: "object",
             properties: {
-              message: { type: 'string' },
+              message: { type: "string" },
             },
           },
         },
       },
     },
-    productController.deleteProduct.bind(productController)
+    productController.deleteProduct.bind(productController),
   );
 }

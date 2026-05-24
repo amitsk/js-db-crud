@@ -1,6 +1,6 @@
-import { eq } from 'drizzle-orm';
-import { Database } from '../../db/index';
-import { products, NewProduct } from '../../db/schema/index';
+import { eq } from "drizzle-orm";
+import { Database } from "../../db/index";
+import { products, NewProduct } from "../../db/schema/index";
 
 export class ProductRepository {
   constructor(private db: Database) {}

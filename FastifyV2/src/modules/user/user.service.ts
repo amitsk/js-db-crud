@@ -1,7 +1,7 @@
-import createError from 'http-errors';
-import { UserRepository } from './user.repository';
-import { CreateUserInput, UpdateUserInput } from './user.schema';
-import { Database } from '../../db/index';
+import createError from "http-errors";
+import { UserRepository } from "./user.repository";
+import { CreateUserInput, UpdateUserInput } from "./user.schema";
+import { Database } from "../../db/index";
 
 export class UserService {
   private repository: UserRepository;
@@ -17,10 +17,10 @@ export class UserService {
   async getUserById(id: number) {
     const user = await this.repository.findById(id);
     if (!user) {
-      throw createError(404, 'User not found');
+      throw createError(404, "User not found");
     }
     // Remove password hash from response
-    const { passwordHash, ...userWithoutPassword } = user;
+    const { passwordHash: _passwordHash, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
 
@@ -28,7 +28,7 @@ export class UserService {
     // Check if email already exists
     const existingUser = await this.repository.findByEmail(input.email);
     if (existingUser) {
-      throw createError(400, 'Email already exists');
+      throw createError(400, "Email already exists");
     }
 
     // In production, hash the password properly (e.g., using bcrypt)
@@ -39,43 +39,43 @@ export class UserService {
       email: input.email,
       passwordHash,
       name: input.name,
-      role: input.role || 'customer',
+      role: input.role || "customer",
     });
 
     // Remove password hash from response
-    const { passwordHash: _, ...userWithoutPassword } = newUser;
+    const { passwordHash: _passwordHash, ...userWithoutPassword } = newUser;
     return userWithoutPassword;
   }
 
   async updateUser(id: number, input: UpdateUserInput) {
     const existingUser = await this.repository.findById(id);
     if (!existingUser) {
-      throw createError(404, 'User not found');
+      throw createError(404, "User not found");
     }
 
     // If email is being updated, check for conflicts
     if (input.email && input.email !== existingUser.email) {
       const emailExists = await this.repository.findByEmail(input.email);
       if (emailExists) {
-        throw createError(400, 'Email already exists');
+        throw createError(400, "Email already exists");
       }
     }
 
     const updatedUser = await this.repository.update(id, input);
     if (!updatedUser) {
-      throw createError(404, 'User not found');
+      throw createError(404, "User not found");
     }
 
     // Remove password hash from response
-    const { passwordHash, ...userWithoutPassword } = updatedUser;
+    const { passwordHash: _passwordHash, ...userWithoutPassword } = updatedUser;
     return userWithoutPassword;
   }
 
   async deleteUser(id: number) {
     const deletedUser = await this.repository.delete(id);
     if (!deletedUser) {
-      throw createError(404, 'User not found');
+      throw createError(404, "User not found");
     }
-    return { message: 'User deleted successfully' };
+    return { message: "User deleted successfully" };
   }
 }

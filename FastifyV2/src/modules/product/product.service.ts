@@ -1,7 +1,7 @@
-import createError from 'http-errors';
-import { ProductRepository } from './product.repository';
-import { CreateProductInput, UpdateProductInput } from './product.schema';
-import { Database } from '../../db/index';
+import createError from "http-errors";
+import { ProductRepository } from "./product.repository";
+import { CreateProductInput, UpdateProductInput } from "./product.schema";
+import { Database } from "../../db/index";
 
 export class ProductService {
   private repository: ProductRepository;
@@ -17,7 +17,7 @@ export class ProductService {
   async getProductById(id: number) {
     const product = await this.repository.findById(id);
     if (!product) {
-      throw createError(404, 'Product not found');
+      throw createError(404, "Product not found");
     }
     return product;
   }
@@ -35,12 +35,12 @@ export class ProductService {
   async updateProduct(id: number, input: UpdateProductInput) {
     const existingProduct = await this.repository.findById(id);
     if (!existingProduct) {
-      throw createError(404, 'Product not found');
+      throw createError(404, "Product not found");
     }
 
     const updatedProduct = await this.repository.update(id, input);
     if (!updatedProduct) {
-      throw createError(404, 'Product not found');
+      throw createError(404, "Product not found");
     }
     return updatedProduct;
   }
@@ -48,8 +48,8 @@ export class ProductService {
   async deleteProduct(id: number) {
     const deletedProduct = await this.repository.delete(id);
     if (!deletedProduct) {
-      throw createError(404, 'Product not found');
+      throw createError(404, "Product not found");
     }
-    return { message: 'Product deleted successfully' };
+    return { message: "Product deleted successfully" };
   }
 }

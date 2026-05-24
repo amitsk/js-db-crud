@@ -56,6 +56,7 @@ Visit: `http://localhost:3000`
 ## 📡 API Endpoints (Same as Complex Version)
 
 ### Users (`/api/users`)
+
 - `GET /api/users` - List with pagination
 - `GET /api/users/:id` - Get by ID
 - `POST /api/users` - Create
@@ -63,6 +64,7 @@ Visit: `http://localhost:3000`
 - `DELETE /api/users/:id` - Delete
 
 ### Products (`/api/products`)
+
 - `GET /api/products` - List with pagination
 - `GET /api/products/:id` - Get by ID
 - `POST /api/products` - Create
@@ -70,6 +72,7 @@ Visit: `http://localhost:3000`
 - `DELETE /api/products/:id` - Delete
 
 ### Orders (`/api/orders`)
+
 - `GET /api/orders` - List with filters (userId, status)
 - `GET /api/orders/:id` - Get with items
 - `POST /api/orders` - Create with items (atomic transaction)
@@ -84,42 +87,45 @@ Visit: `http://localhost:3000`
 // user.routes.simple.ts - Everything in one place
 export async function userRoutes(fastify: FastifyInstance) {
   // GET /api/users
-  fastify.get('/', { schema: { querystring: listUsersQuerySchema } },
-    async (request) => {
-      const { limit, offset } = request.query as any;
-      const users = await fastify.db.select().from(users).limit(limit).offset(offset);
-      return users.map(({ passwordHash, ...user }) => user);
-    }
-  );
+  fastify.get("/", { schema: { querystring: listUsersQuerySchema } }, async (request) => {
+    const { limit, offset } = request.query as any;
+    const users = await fastify.db.select().from(users).limit(limit).offset(offset);
+    return users.map(({ passwordHash, ...user }) => user);
+  });
 
   // POST /api/users
-  fastify.post('/', { schema: { body: createUserSchema } },
-    async (request, reply) => {
-      const body = request.body as any;
+  fastify.post("/", { schema: { body: createUserSchema } }, async (request, reply) => {
+    const body = request.body as any;
 
-      // Check email exists
-      const [existing] = await fastify.db.select().from(users)
-        .where(eq(users.email, body.email)).limit(1);
-      if (existing) throw createError(400, 'Email already exists');
+    // Check email exists
+    const [existing] = await fastify.db
+      .select()
+      .from(users)
+      .where(eq(users.email, body.email))
+      .limit(1);
+    if (existing) throw createError(400, "Email already exists");
 
-      // Create user
-      const [newUser] = await fastify.db.insert(users).values({
+    // Create user
+    const [newUser] = await fastify.db
+      .insert(users)
+      .values({
         email: body.email,
         passwordHash: `hashed_${body.password}`,
         name: body.name,
-        role: body.role || 'customer',
-      }).returning();
+        role: body.role || "customer",
+      })
+      .returning();
 
-      const { passwordHash, ...user } = newUser;
-      return reply.status(201).send(user);
-    }
-  );
+    const { passwordHash, ...user } = newUser;
+    return reply.status(201).send(user);
+  });
 
   // ... other endpoints
 }
 ```
 
 **Benefits:**
+
 - All logic visible in one place
 - No jumping between files
 - Clear and straightforward
@@ -168,6 +174,7 @@ async findByEmail(email: string) {
 ```
 
 **Drawbacks:**
+
 - Split across 4 files
 - Lots of indirection
 - Pass-through methods
@@ -176,6 +183,7 @@ async findByEmail(email: string) {
 ## ✅ What's the Same
 
 Both versions have:
+
 - ✅ Full TypeScript with strict mode
 - ✅ Zod validation
 - ✅ Database transactions (order creation)
@@ -206,6 +214,7 @@ npm run db:studio        # Open Drizzle Studio
 ## 🔄 When to Switch to Complex
 
 Refactor to complex version when you have:
+
 - ❌ Same logic duplicated across 3+ routes
 - ❌ Complex business rules that need testing in isolation
 - ❌ Multiple data sources per entity
@@ -216,16 +225,16 @@ Until then, **keep it simple!**
 
 ## 📈 Comparison
 
-| Aspect | Simple | Complex |
-|--------|--------|---------|
-| **Files** | 13 | 35 |
-| **Lines of Code** | 650 | 2000+ |
-| **User Module** | 2 files | 6 files |
-| **Readability** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
-| **Dev Speed** | ⚡ Fast | 🐢 Slow |
-| **Testability** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Maintenance** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
-| **Scalability** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Aspect            | Simple     | Complex    |
+| ----------------- | ---------- | ---------- |
+| **Files**         | 13         | 35         |
+| **Lines of Code** | 650        | 2000+      |
+| **User Module**   | 2 files    | 6 files    |
+| **Readability**   | ⭐⭐⭐⭐⭐ | ⭐⭐⭐     |
+| **Dev Speed**     | ⚡ Fast    | 🐢 Slow    |
+| **Testability**   | ⭐⭐⭐     | ⭐⭐⭐⭐⭐ |
+| **Maintenance**   | ⭐⭐⭐⭐⭐ | ⭐⭐⭐     |
+| **Scalability**   | ⭐⭐⭐     | ⭐⭐⭐⭐⭐ |
 
 ## 🎓 Key Principles
 
@@ -248,12 +257,14 @@ Until then, **keep it simple!**
 ## 🏆 Recommendation
 
 **Use the simple version** for:
+
 - 90% of CRUD APIs
 - Solo/small team projects
 - Rapid prototyping
 - Straightforward business logic
 
 **Switch to complex** when:
+
 - Code duplication becomes painful
 - Testing requires isolation
 - Team coordination needs structure

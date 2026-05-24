@@ -3,6 +3,7 @@
 ## 📦 Project Overview
 
 **FastifyV2** is a production-ready, fully-typed REST API built with modern technologies:
+
 - **Fastify 5.x** - High-performance web framework
 - **Drizzle ORM 0.33+** - Type-safe ORM with PostgreSQL
 - **TypeScript 5.x** - Full type safety
@@ -94,6 +95,7 @@ FastifyV2/
 ## 🎯 Key Features Implemented
 
 ### ✅ Database Schema
+
 - **4 tables** with proper relations
 - Foreign key constraints with cascade/restrict
 - Composite primary key (order_items)
@@ -103,6 +105,7 @@ FastifyV2/
 ### ✅ API Endpoints (15 total)
 
 **Users** (5 endpoints)
+
 - `GET /api/users` - List with pagination
 - `GET /api/users/:id` - Get by ID
 - `POST /api/users` - Create
@@ -110,6 +113,7 @@ FastifyV2/
 - `DELETE /api/users/:id` - Delete
 
 **Products** (5 endpoints)
+
 - `GET /api/products` - List with pagination
 - `GET /api/products/:id` - Get by ID
 - `POST /api/products` - Create
@@ -117,6 +121,7 @@ FastifyV2/
 - `DELETE /api/products/:id` - Delete
 
 **Orders** (5 endpoints)
+
 - `GET /api/orders` - List with filters (userId, status)
 - `GET /api/orders/:id` - Get with items
 - `POST /api/orders` - Create with items (transaction)
@@ -126,6 +131,7 @@ FastifyV2/
 ### ✅ Architecture Patterns
 
 **Layered Architecture**
+
 ```
 Request → Routes → Controller → Service → Repository → Database
                       ↓
@@ -133,11 +139,13 @@ Request → Routes → Controller → Service → Repository → Database
 ```
 
 **Repository Pattern**
+
 - Separation of data access logic
 - Easy to test and mock
 - Database-agnostic interface
 
 **Transaction Support**
+
 - Order creation is atomic
 - Creates order + items + updates stock in single transaction
 - Rollback on any failure
@@ -145,11 +153,13 @@ Request → Routes → Controller → Service → Repository → Database
 ### ✅ Type Safety
 
 **Compile-time**
+
 - TypeScript strict mode
 - Drizzle ORM type inference
 - Fastify type augmentation
 
 **Runtime**
+
 - Zod schema validation
 - Request/response validation
 - Query parameter transformation
@@ -157,6 +167,7 @@ Request → Routes → Controller → Service → Repository → Database
 ### ✅ Security Features
 
 **Implemented**
+
 - Helmet (security headers)
 - CORS configuration
 - Response compression
@@ -164,6 +175,7 @@ Request → Routes → Controller → Service → Repository → Database
 - Error sanitization
 
 **Stubbed (ready to implement)**
+
 - JWT authentication
 - Password hashing (bcrypt/argon2)
 - Rate limiting
@@ -171,16 +183,20 @@ Request → Routes → Controller → Service → Repository → Database
 ### ✅ Developer Experience
 
 **Hot Reload**
+
 - `tsx watch` for instant development feedback
 
 **Database GUI**
+
 - Drizzle Studio for visual data management
 
 **Type-safe Queries**
+
 - Auto-completion for database queries
 - Compile-time error checking
 
 **Structured Logging**
+
 - Pino logger with pretty printing in dev
 - Structured JSON logs in production
 
@@ -188,13 +204,13 @@ Request → Routes → Controller → Service → Repository → Database
 
 ```json
 {
-  "dev": "tsx watch src/server.ts",           // Hot reload dev server
-  "start": "node dist/server.js",             // Production server
-  "build": "tsc",                             // Compile TypeScript
-  "db:generate": "drizzle-kit generate",      // Generate migrations
-  "db:migrate": "drizzle-kit migrate",        // Apply migrations
-  "db:push": "drizzle-kit push",              // Push schema (dev)
-  "db:studio": "drizzle-kit studio"           // Open database GUI
+  "dev": "tsx watch src/server.ts", // Hot reload dev server
+  "start": "node dist/server.js", // Production server
+  "build": "tsc", // Compile TypeScript
+  "db:generate": "drizzle-kit generate", // Generate migrations
+  "db:migrate": "drizzle-kit migrate", // Apply migrations
+  "db:push": "drizzle-kit push", // Push schema (dev)
+  "db:studio": "drizzle-kit studio" // Open database GUI
 }
 ```
 
@@ -246,12 +262,14 @@ Transaction Steps:
 ## 📦 Dependencies
 
 **Production** (10 packages)
+
 - fastify, drizzle-orm, pg, zod
 - @fastify/type-provider-zod, fastify-plugin, http-errors
 - @fastify/cors, @fastify/helmet, @fastify/compress
 - dotenv
 
 **Development** (5 packages)
+
 - typescript, tsx, drizzle-kit
 - @types/node, @types/pg, @types/http-errors
 
@@ -277,12 +295,14 @@ curl http://localhost:3000/
 ## 📝 Code Quality
 
 **TypeScript Strict Mode**
+
 - No implicit any
 - Strict null checks
 - No unused locals/parameters
 - No implicit returns
 
 **Best Practices**
+
 - Async/await throughout
 - Proper error handling
 - Type-safe database queries
@@ -292,6 +312,7 @@ curl http://localhost:3000/
 ## 🎓 Learning Resources
 
 This project demonstrates:
+
 - Fastify plugin system
 - Drizzle ORM relations
 - Repository pattern

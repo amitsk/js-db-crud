@@ -1,16 +1,19 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const createProductSchema = z.object({
   name: z.string().min(1).max(255),
   description: z.string().optional(),
-  price: z.string().regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format'),
+  price: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid price format"),
   stock: z.number().int().nonnegative().default(0),
 });
 
 export const updateProductSchema = z.object({
   name: z.string().min(1).max(255).optional(),
   description: z.string().optional(),
-  price: z.string().regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format').optional(),
+  price: z
+    .string()
+    .regex(/^\d+(\.\d{1,2})?$/, "Invalid price format")
+    .optional(),
   stock: z.number().int().nonnegative().optional(),
 });
 
@@ -19,8 +22,13 @@ export const productIdParamSchema = z.object({
 });
 
 export const listProductsQuerySchema = z.object({
-  limit: z.string().transform(Number).pipe(z.number().int().positive().max(100)).optional().default('10'),
-  offset: z.string().transform(Number).pipe(z.number().int().nonnegative()).optional().default('0'),
+  limit: z
+    .string()
+    .transform(Number)
+    .pipe(z.number().int().positive().max(100))
+    .optional()
+    .default(10),
+  offset: z.string().transform(Number).pipe(z.number().int().nonnegative()).optional().default(0),
 });
 
 export type CreateProductInput = z.infer<typeof createProductSchema>;

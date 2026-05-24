@@ -75,64 +75,71 @@ FastifyV2/
 ## 📊 Database Schema
 
 ### **users** Table
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | serial | PRIMARY KEY |
-| email | varchar(255) | NOT NULL, UNIQUE |
-| passwordHash | text | NOT NULL |
-| name | varchar(255) | NOT NULL |
-| role | varchar(50) | NOT NULL, DEFAULT 'customer' |
-| createdAt | timestamp | NOT NULL, DEFAULT now() |
-| updatedAt | timestamp | NOT NULL, DEFAULT now() |
+
+| Column       | Type         | Constraints                  |
+| ------------ | ------------ | ---------------------------- |
+| id           | serial       | PRIMARY KEY                  |
+| email        | varchar(255) | NOT NULL, UNIQUE             |
+| passwordHash | text         | NOT NULL                     |
+| name         | varchar(255) | NOT NULL                     |
+| role         | varchar(50)  | NOT NULL, DEFAULT 'customer' |
+| createdAt    | timestamp    | NOT NULL, DEFAULT now()      |
+| updatedAt    | timestamp    | NOT NULL, DEFAULT now()      |
 
 **Relations**: User hasMany Orders
 
 ### **products** Table
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | serial | PRIMARY KEY |
-| name | varchar(255) | NOT NULL |
-| description | text | NULL |
-| price | numeric(10,2) | NOT NULL |
-| stock | integer | NOT NULL, DEFAULT 0 |
-| createdAt | timestamp | NOT NULL, DEFAULT now() |
-| updatedAt | timestamp | NOT NULL, DEFAULT now() |
+
+| Column      | Type          | Constraints             |
+| ----------- | ------------- | ----------------------- |
+| id          | serial        | PRIMARY KEY             |
+| name        | varchar(255)  | NOT NULL                |
+| description | text          | NULL                    |
+| price       | numeric(10,2) | NOT NULL                |
+| stock       | integer       | NOT NULL, DEFAULT 0     |
+| createdAt   | timestamp     | NOT NULL, DEFAULT now() |
+| updatedAt   | timestamp     | NOT NULL, DEFAULT now() |
 
 **Relations**: Product hasMany OrderItems
 
 ### **orders** Table
-| Column | Type | Constraints |
-|--------|------|-------------|
-| id | serial | PRIMARY KEY |
-| userId | integer | NOT NULL, FK → users.id (CASCADE) |
-| totalAmount | numeric(10,2) | NOT NULL |
-| status | varchar(50) | NOT NULL, DEFAULT 'pending' |
-| createdAt | timestamp | NOT NULL, DEFAULT now() |
-| updatedAt | timestamp | NOT NULL, DEFAULT now() |
+
+| Column      | Type          | Constraints                       |
+| ----------- | ------------- | --------------------------------- |
+| id          | serial        | PRIMARY KEY                       |
+| userId      | integer       | NOT NULL, FK → users.id (CASCADE) |
+| totalAmount | numeric(10,2) | NOT NULL                          |
+| status      | varchar(50)   | NOT NULL, DEFAULT 'pending'       |
+| createdAt   | timestamp     | NOT NULL, DEFAULT now()           |
+| updatedAt   | timestamp     | NOT NULL, DEFAULT now()           |
 
 **Status Enum**: pending, paid, shipped, delivered, cancelled
 
 **Relations**:
+
 - Order belongsTo User
 - Order hasMany OrderItems
 
 ### **order_items** Table (Junction)
-| Column | Type | Constraints |
-|--------|------|-------------|
-| orderId | integer | FK → orders.id (CASCADE) |
-| productId | integer | FK → products.id (RESTRICT) |
-| quantity | integer | NOT NULL |
-| priceAtPurchase | numeric(10,2) | NOT NULL |
+
+| Column          | Type          | Constraints                 |
+| --------------- | ------------- | --------------------------- |
+| orderId         | integer       | FK → orders.id (CASCADE)    |
+| productId       | integer       | FK → products.id (RESTRICT) |
+| quantity        | integer       | NOT NULL                    |
+| priceAtPurchase | numeric(10,2) | NOT NULL                    |
 
 **Primary Key**: Composite (orderId, productId)
 
 **Relations**:
+
 - OrderItem belongsTo Order
 - OrderItem belongsTo Product
 
 ## 🔧 Setup & Installation
 
 ### Prerequisites
+
 - Node.js 18+
 - PostgreSQL 14+
 - npm or yarn
@@ -140,17 +147,20 @@ FastifyV2/
 ### Installation Steps
 
 1. **Clone and install dependencies**
+
 ```bash
 cd FastifyV2
 npm install
 ```
 
 2. **Configure environment**
+
 ```bash
 cp .env.example .env.local
 ```
 
 Edit `.env.local`:
+
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/fastifyv2
 NODE_ENV=development
@@ -159,6 +169,7 @@ HOST=0.0.0.0
 ```
 
 3. **Generate and run migrations**
+
 ```bash
 # Generate migration files from schema
 npm run db:generate
@@ -171,6 +182,7 @@ npm run db:push
 ```
 
 4. **Start development server**
+
 ```bash
 npm run dev
 ```
@@ -180,10 +192,13 @@ Server will be running at `http://localhost:3000`
 ## 📡 API Endpoints
 
 ### Health Check
+
 ```
 GET /
 ```
+
 Response:
+
 ```json
 {
   "status": "ok",
@@ -198,22 +213,28 @@ Response:
 ### Users API (`/api/users`)
 
 #### List Users
+
 ```
 GET /api/users?limit=10&offset=0
 ```
+
 **Query Parameters:**
+
 - `limit` (optional): Max results, default 10, max 100
 - `offset` (optional): Skip N results, default 0
 
 **Response:** Array of user objects (without passwordHash)
 
 #### Get User by ID
+
 ```
 GET /api/users/:id
 ```
+
 **Response:** Single user object
 
 #### Create User
+
 ```
 POST /api/users
 Content-Type: application/json
@@ -225,9 +246,11 @@ Content-Type: application/json
   "role": "customer"  // optional: "customer" | "admin"
 }
 ```
+
 **Response:** Created user (201)
 
 #### Update User
+
 ```
 PUT /api/users/:id
 Content-Type: application/json
@@ -238,12 +261,15 @@ Content-Type: application/json
   "role": "admin"                    // optional
 }
 ```
+
 **Response:** Updated user object
 
 #### Delete User
+
 ```
 DELETE /api/users/:id
 ```
+
 **Response:** `{ "message": "User deleted successfully" }`
 
 ---
@@ -251,22 +277,28 @@ DELETE /api/users/:id
 ### Products API (`/api/products`)
 
 #### List Products
+
 ```
 GET /api/products?limit=10&offset=0
 ```
+
 **Query Parameters:**
+
 - `limit` (optional): Max results, default 10, max 100
 - `offset` (optional): Skip N results, default 0
 
 **Response:** Array of product objects
 
 #### Get Product by ID
+
 ```
 GET /api/products/:id
 ```
+
 **Response:** Single product object
 
 #### Create Product
+
 ```
 POST /api/products
 Content-Type: application/json
@@ -278,9 +310,11 @@ Content-Type: application/json
   "stock": 50
 }
 ```
+
 **Response:** Created product (201)
 
 #### Update Product
+
 ```
 PUT /api/products/:id
 Content-Type: application/json
@@ -292,12 +326,15 @@ Content-Type: application/json
   "stock": 45                    // optional
 }
 ```
+
 **Response:** Updated product object
 
 #### Delete Product
+
 ```
 DELETE /api/products/:id
 ```
+
 **Response:** `{ "message": "Product deleted successfully" }`
 
 ---
@@ -305,10 +342,13 @@ DELETE /api/products/:id
 ### Orders API (`/api/orders`)
 
 #### List Orders
+
 ```
 GET /api/orders?limit=10&offset=0&userId=1&status=pending
 ```
+
 **Query Parameters:**
+
 - `limit` (optional): Max results, default 10, max 100
 - `offset` (optional): Skip N results, default 0
 - `userId` (optional): Filter by user ID
@@ -317,12 +357,15 @@ GET /api/orders?limit=10&offset=0&userId=1&status=pending
 **Response:** Array of order objects with user details
 
 #### Get Order by ID (with items)
+
 ```
 GET /api/orders/:id
 ```
+
 **Response:** Order object with user details and order items (including product info)
 
 #### Create Order (Transaction)
+
 ```
 POST /api/orders
 Content-Type: application/json
@@ -344,6 +387,7 @@ Content-Type: application/json
 ```
 
 **Transaction Flow:**
+
 1. Validates user exists
 2. Validates all products exist and have sufficient stock
 3. Calculates total amount
@@ -355,6 +399,7 @@ Content-Type: application/json
 **Response:** Complete order object with items (201)
 
 #### Update Order Status
+
 ```
 PUT /api/orders/:id
 Content-Type: application/json
@@ -363,12 +408,15 @@ Content-Type: application/json
   "status": "shipped"  // pending | paid | shipped | delivered | cancelled
 }
 ```
+
 **Response:** Updated order object with items
 
 #### Delete Order
+
 ```
 DELETE /api/orders/:id
 ```
+
 **Note:** Cascades to order_items automatically
 
 **Response:** `{ "message": "Order deleted successfully" }`
@@ -378,6 +426,7 @@ DELETE /api/orders/:id
 ## 🔒 Error Responses
 
 All errors follow this format:
+
 ```json
 {
   "error": "Error message",
@@ -386,6 +435,7 @@ All errors follow this format:
 ```
 
 **Common Status Codes:**
+
 - `400` - Bad Request (validation error, business logic error)
 - `404` - Not Found
 - `500` - Internal Server Error
@@ -411,20 +461,25 @@ npm run db:studio   # Open Drizzle Studio GUI
 ### Database Management
 
 **Generate Migration:**
+
 ```bash
 npm run db:generate
 ```
+
 Creates migration SQL files in `src/db/migrations/`
 
 **Apply Migrations:**
+
 ```bash
 npm run db:migrate
 ```
 
 **Drizzle Studio (GUI):**
+
 ```bash
 npm run db:studio
 ```
+
 Opens a web interface to browse and edit database data
 
 ---
@@ -432,14 +487,18 @@ Opens a web interface to browse and edit database data
 ## 🏗️ Architecture Patterns
 
 ### Repository Pattern
+
 Each module follows the layered architecture:
+
 - **Routes**: Define endpoints and schema validation
 - **Controller**: Handle HTTP request/response
 - **Service**: Business logic and orchestration
 - **Repository**: Database operations
 
 ### Transaction Example
+
 Orders are created atomically:
+
 ```typescript
 await db.transaction(async (tx) => {
   const order = await tx.insert(orders).values(...).returning();
@@ -450,6 +509,7 @@ await db.transaction(async (tx) => {
 ```
 
 ### Type Safety
+
 - Drizzle ORM provides inferred types from schema
 - Zod validates runtime data
 - TypeScript ensures compile-time type safety
@@ -460,15 +520,17 @@ await db.transaction(async (tx) => {
 ## 🔐 Security Notes
 
 1. **Password Hashing**: The current implementation uses a stub (`hashed_${password}`). In production, use `bcrypt` or `argon2`:
+
    ```typescript
-   import bcrypt from 'bcrypt';
+   import bcrypt from "bcrypt";
    const passwordHash = await bcrypt.hash(password, 10);
    ```
 
 2. **JWT Authentication**: Auth plugin is stubbed. Implement using `@fastify/jwt`:
+
    ```typescript
-   await fastify.register(import('@fastify/jwt'), {
-     secret: process.env.JWT_SECRET
+   await fastify.register(import("@fastify/jwt"), {
+     secret: process.env.JWT_SECRET,
    });
    ```
 
@@ -481,6 +543,7 @@ await db.transaction(async (tx) => {
 ## 📦 Dependencies
 
 ### Production
+
 - `fastify` (^5.2.0) - Web framework
 - `drizzle-orm` (^0.33.0) - ORM
 - `pg` (^8.13.1) - PostgreSQL driver
@@ -494,6 +557,7 @@ await db.transaction(async (tx) => {
 - `dotenv` (^16.4.7) - Environment variables
 
 ### Development
+
 - `typescript` (^5.7.2)
 - `tsx` (^4.19.2) - TypeScript executor
 - `drizzle-kit` (^0.24.2) - Migrations CLI

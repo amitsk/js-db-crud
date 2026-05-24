@@ -1,6 +1,6 @@
-import { eq } from 'drizzle-orm';
-import { Database } from '../../db/index';
-import { users, NewUser } from '../../db/schema/index';
+import { eq } from "drizzle-orm";
+import { Database } from "../../db/index";
+import { users, NewUser } from "../../db/schema/index";
 
 export class UserRepository {
   constructor(private db: Database) {}
