@@ -253,7 +253,7 @@ Don't refactor everything at once. Mix and match based on need.
 
 - [ARCHITECTURE_COMPARISON.md](ARCHITECTURE_COMPARISON.md) - Detailed comparison
 - [README_SIMPLE.md](README_SIMPLE.md) - Simple version guide
-- [README.md](README.md) - Complex version docs
+- [README_COMPLEX.md](README_COMPLEX.md) - Complex version docs
 
 ## 🏆 Bottom Line
 

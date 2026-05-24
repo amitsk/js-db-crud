@@ -1,587 +1,340 @@
-# FastifyV2 - Production-Ready Fastify + Drizzle ORM API
+# FastifyV2 — Production-Ready Fastify & Drizzle ORM Dual-Architecture Backend
 
-A complete, production-ready REST API built with Fastify, Drizzle ORM, PostgreSQL, TypeScript, and Zod validation. Features modular architecture with repository pattern, transactions, and comprehensive CRUD operations.
+[![Fastify](https://img.shields.io/badge/Fastify-5.x-black?logo=fastify&logoColor=white&style=flat-square)](https://fastify.dev/)
+[![Drizzle ORM](https://img.shields.io/badge/Drizzle%20ORM-0.33%2B-5c2d91?logo=drizzle&style=flat-square)](https://orm.drizzle.team/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript&logoColor=white&style=flat-square)](https://www.typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14%2B-blue?logo=postgresql&logoColor=white&style=flat-square)](https://www.postgresql.org/)
+[![Zod](https://img.shields.io/badge/Zod-3.x-violet?style=flat-square)](https://zod.dev/)
 
-## 🚀 Features
+A production-ready, fully typed REST API with PostgreSQL, Fastify 5.x, Drizzle ORM, and Zod validation. The defining feature of this project is its **dual-architecture blueprint**, showcasing two completely functional implementations of the same API: a clean, minimal **Simple Version** and a structured, enterprise-level **Complex Version** using the Repository Pattern.
 
-- **Modern Stack**: Fastify 5.x, Drizzle ORM 0.33+, TypeScript 5.x, Zod 3.x
-- **Type-Safe**: Full TypeScript implementation with strict mode
-- **Modular Architecture**: Clean separation with controller → service → repository pattern
-- **Database**: PostgreSQL with Drizzle ORM and automatic migrations
-- **Validation**: Request/response validation with Zod schemas
-- **Security**: Helmet, CORS, compression middleware
-- **Transactions**: Database transactions for atomic operations (order creation)
-- **Relations**: Proper foreign keys and cascade deletes
-- **Error Handling**: Global error handler with http-errors
-- **Pagination**: Limit/offset pagination on list endpoints
+---
 
-## 📁 Project Structure
+## 🎯 The Dual-Architecture Blueprint
+
+This repository is designed as a learning resource and an architecture starter kit. It implements the exact same database schema and API endpoints using two separate structural philosophies:
+
+```
+                  ┌──────────────────────────────────────────────┐
+                  │              Fastify HTTP Route              │
+                  └──────────────────────┬───────────────────────┘
+                                         │
+                   ┌─────────────────────┴─────────────────────┐
+                   ▼                                           ▼
+         ⚡ SIMPLE ARCHITECTURE                       🏗️ COMPLEX ARCHITECTURE
+         (Default & Recommended)                     (Enterprise Repository Pattern)
+  ┌───────────────────────────────┐           ┌───────────────────────────────┐
+  │ Route Handler (Inline Logic)  │           │   Controller (HTTP Handler)   │
+  └──────────────┬────────────────┘           └──────────────┬────────────────┘
+                 │                                           ▼
+                 │                               ┌───────────────────────────────┐
+                 │                               │    Service (Business Logic)   │
+                 │                               └──────────────┬────────────────┘
+                 │                                           ▼
+                 │                               ┌───────────────────────────────┐
+                 │                               │  Repository (Data Access)     │
+                 │                               └──────────────┬────────────────┘
+                 ▼                                           ▼
+  ┌───────────────────────────────┐           ┌───────────────────────────────┐
+  │      Drizzle ORM Database     │           │      Drizzle ORM Database     │
+  └───────────────────────────────┘           └───────────────────────────────┘
+```
+
+### 📊 Side-by-Side Comparison
+
+| Feature                  | ⚡ Simple Version (Recommended)         | 🏗️ Complex Version (Enterprise)                  |
+| :----------------------- | :-------------------------------------- | :----------------------------------------------- |
+| **Files**                | **13** (65% reduction)                  | **35**                                           |
+| **Lines of Code**        | **~650**                                | **~2,000+**                                      |
+| **Architectural Layers** | 1 (Routes → DB)                         | 4 (Routes → Controller → Service → Repository)   |
+| **Code Locality**        | High (Logic in one place)               | Low (Distributed across 4 files)                 |
+| **Testing Strategy**     | HTTP Integration / E2E                  | Isolated Unit Testing + Integration              |
+| **Development Speed**    | ⚡ Extremely Fast                       | 🐢 Slow (Due to boilerplate)                     |
+| **Ideal For**            | 90% of CRUD APIs, startups, small teams | Very large teams, complex rule engines, multi-DB |
+
+---
+
+## 🗂️ Project Directory Structure
+
+Here is how the project files are laid out, highlighting which components belong to the Simple or Complex implementations:
 
 ```
 FastifyV2/
 ├── src/
-│   ├── server.ts                 # Fastify instance + global plugins
-│   ├── app.ts                    # Plugin & route registration
+│   ├── server.simple.ts          # ⚡ Entry point for Simple Version (Default)
+│   ├── app.simple.ts             # ⚡ Route definitions for Simple Version
+│   │
+│   ├── server.ts                 # 🏗️ Entry point for Complex Version
+│   ├── app.ts                    # 🏗️ Plugin & route definitions for Complex Version
+│   │
 │   ├── config/
-│   │   └── index.ts              # Environment validation with Zod
+│   │   └── index.ts              # Zod-validated configuration schema
 │   ├── db/
-│   │   ├── index.ts              # Drizzle database instance
-│   │   ├── schema/
+│   │   ├── index.ts              # pg Pool & Drizzle DB instance
+│   │   ├── schema/               # Drizzle schemas (Shared by both versions)
 │   │   │   ├── user.schema.ts
 │   │   │   ├── product.schema.ts
 │   │   │   ├── order.schema.ts
 │   │   │   ├── orderItem.schema.ts
-│   │   │   └── index.ts          # Schema barrel export
-│   │   └── migrations/           # Generated migration files
-│   ├── modules/
+│   │   │   └── index.ts
+│   │   └── migrations/           # Auto-generated SQL migrations
+│   │
+│   ├── modules/                  # Feature Modules
 │   │   ├── user/
-│   │   │   ├── user.routes.ts
-│   │   │   ├── user.controller.ts
-│   │   │   ├── user.service.ts
-│   │   │   ├── user.repository.ts
-│   │   │   ├── user.schema.ts    # Zod validation schemas
-│   │   │   └── index.ts
+│   │   │   ├── user.routes.simple.ts  # ⚡ Simple handlers in single file
+│   │   │   ├── user.routes.ts         # 🏗️ Complex routes
+│   │   │   ├── user.controller.ts     # 🏗️ Complex controller layer
+│   │   │   ├── user.service.ts        # 🏗️ Complex service layer
+│   │   │   ├── user.repository.ts     # 🏗️ Complex repository layer
+│   │   │   └── user.schema.ts         # Zod schemas (Shared)
 │   │   ├── product/
-│   │   │   ├── product.routes.ts
-│   │   │   ├── product.controller.ts
-│   │   │   ├── product.service.ts
-│   │   │   ├── product.repository.ts
-│   │   │   ├── product.schema.ts
-│   │   │   └── index.ts
+│   │   │   ├── product.routes.simple.ts
+│   │   │   ├── ... (etc.)
 │   │   └── order/
-│   │       ├── order.routes.ts
-│   │       ├── order.controller.ts
-│   │       ├── order.service.ts
-│   │       ├── order.repository.ts
-│   │       ├── order.schema.ts
-│   │       └── index.ts
+│   │       ├── order.routes.simple.ts
+│   │       ├── ... (etc.)
+│   │
 │   ├── plugins/
-│   │   └── drizzle.plugin.ts     # Drizzle plugin with 'db' decorator
+│   │   └── drizzle.plugin.ts     # Fastify Drizzle decorator plugin
 │   ├── shared/
 │   │   ├── decorators/
-│   │   │   └── tx.decorator.ts   # Transaction helper
+│   │   │   └── tx.decorator.ts   # TS decorator helper for transactions
 │   │   └── plugins/
-│   │       └── auth.plugin.ts    # JWT auth stub
+│   │       └── auth.plugin.ts    # JWT Authentication plugin (stub)
 │   └── types/
-│       └── index.d.ts            # Fastify type extensions
-├── package.json
-├── tsconfig.json
-├── drizzle.config.ts
-├── .env.example
-├── .env.local                     # Create this file
-└── README.md
+│       └── index.d.ts            # Fastify Type Augmentations
 ```
 
-## 📊 Database Schema
+---
 
-### **users** Table
-
-| Column       | Type         | Constraints                  |
-| ------------ | ------------ | ---------------------------- |
-| id           | serial       | PRIMARY KEY                  |
-| email        | varchar(255) | NOT NULL, UNIQUE             |
-| passwordHash | text         | NOT NULL                     |
-| name         | varchar(255) | NOT NULL                     |
-| role         | varchar(50)  | NOT NULL, DEFAULT 'customer' |
-| createdAt    | timestamp    | NOT NULL, DEFAULT now()      |
-| updatedAt    | timestamp    | NOT NULL, DEFAULT now()      |
-
-**Relations**: User hasMany Orders
-
-### **products** Table
-
-| Column      | Type          | Constraints             |
-| ----------- | ------------- | ----------------------- |
-| id          | serial        | PRIMARY KEY             |
-| name        | varchar(255)  | NOT NULL                |
-| description | text          | NULL                    |
-| price       | numeric(10,2) | NOT NULL                |
-| stock       | integer       | NOT NULL, DEFAULT 0     |
-| createdAt   | timestamp     | NOT NULL, DEFAULT now() |
-| updatedAt   | timestamp     | NOT NULL, DEFAULT now() |
-
-**Relations**: Product hasMany OrderItems
-
-### **orders** Table
-
-| Column      | Type          | Constraints                       |
-| ----------- | ------------- | --------------------------------- |
-| id          | serial        | PRIMARY KEY                       |
-| userId      | integer       | NOT NULL, FK → users.id (CASCADE) |
-| totalAmount | numeric(10,2) | NOT NULL                          |
-| status      | varchar(50)   | NOT NULL, DEFAULT 'pending'       |
-| createdAt   | timestamp     | NOT NULL, DEFAULT now()           |
-| updatedAt   | timestamp     | NOT NULL, DEFAULT now()           |
-
-**Status Enum**: pending, paid, shipped, delivered, cancelled
-
-**Relations**:
-
-- Order belongsTo User
-- Order hasMany OrderItems
-
-### **order_items** Table (Junction)
-
-| Column          | Type          | Constraints                 |
-| --------------- | ------------- | --------------------------- |
-| orderId         | integer       | FK → orders.id (CASCADE)    |
-| productId       | integer       | FK → products.id (RESTRICT) |
-| quantity        | integer       | NOT NULL                    |
-| priceAtPurchase | numeric(10,2) | NOT NULL                    |
-
-**Primary Key**: Composite (orderId, productId)
-
-**Relations**:
-
-- OrderItem belongsTo Order
-- OrderItem belongsTo Product
-
-## 🔧 Setup & Installation
+## 🚀 Setup & Installation
 
 ### Prerequisites
 
-- Node.js 18+
-- PostgreSQL 14+
-- npm or yarn
+- **Node.js** 24.x (uses native ESM, clean syntax)
+- **PostgreSQL** 14+ database instance running
 
-### Installation Steps
+### Getting Started
 
-1. **Clone and install dependencies**
+1. **Clone the repository and install dependencies**
 
-```bash
-cd FastifyV2
-npm install
-```
+   ```bash
+   cd FastifyV2
+   npm install
+   ```
 
-2. **Configure environment**
+2. **Configure your environment**
+   Create a local environment file:
 
-```bash
-cp .env.example .env.local
-```
+   ```bash
+   cp .env.example .env.local
+   ```
 
-Edit `.env.local`:
+   Open `.env.local` and enter your database connection details:
 
-```env
-DATABASE_URL=postgresql://user:password@localhost:5432/fastifyv2
-NODE_ENV=development
-PORT=3000
-HOST=0.0.0.0
-```
+   ```env
+   DATABASE_URL=postgresql://postgres:postgres@localhost:5432/fastifyv2
+   NODE_ENV=development
+   PORT=3000
+   HOST=0.0.0.0
+   ```
 
-3. **Generate and run migrations**
+3. **Initialize the database schema**
+   Apply schemas directly to your PostgreSQL instance using Drizzle Kit:
 
-```bash
-# Generate migration files from schema
-npm run db:generate
+   ```bash
+   # Create database in postgres if not exists (using your terminal / pgAdmin)
+   createdb fastifyv2
 
-# Apply migrations to database
-npm run db:migrate
+   # Push schema definitions immediately to database
+   npm run db:push
+   ```
 
-# Or use push for development (bypasses migrations)
-npm run db:push
-```
+4. **Start the development server**
 
-4. **Start development server**
+   ```bash
+   # Starts the SIMPLE version (Default, recommended)
+   npm run dev
 
-```bash
-npm run dev
-```
-
-Server will be running at `http://localhost:3000`
-
-## 📡 API Endpoints
-
-### Health Check
-
-```
-GET /
-```
-
-Response:
-
-```json
-{
-  "status": "ok",
-  "message": "Fastify + Drizzle ORM API",
-  "version": "2.0.0",
-  "timestamp": "2025-11-17T12:00:00.000Z"
-}
-```
+   # OR: Starts the COMPLEX version
+   npm run dev:complex
+   ```
 
 ---
 
-### Users API (`/api/users`)
+## 🗄️ Database Schema & Relationships
 
-#### List Users
+The database is built on **4 tables** optimized with proper constraints, default values, and foreign key rules using Drizzle ORM.
 
-```
-GET /api/users?limit=10&offset=0
-```
+### 📊 ERD Relationships
 
-**Query Parameters:**
+```mermaid
+erDiagram
+    users ||--o{ orders : "creates (1:M)"
+    orders ||--|{ order_items : "contains (1:M)"
+    products ||--o{ order_items : "referenced_by (1:M)"
 
-- `limit` (optional): Max results, default 10, max 100
-- `offset` (optional): Skip N results, default 0
-
-**Response:** Array of user objects (without passwordHash)
-
-#### Get User by ID
-
-```
-GET /api/users/:id
-```
-
-**Response:** Single user object
-
-#### Create User
-
-```
-POST /api/users
-Content-Type: application/json
-
-{
-  "email": "user@example.com",
-  "password": "securepass123",
-  "name": "John Doe",
-  "role": "customer"  // optional: "customer" | "admin"
-}
-```
-
-**Response:** Created user (201)
-
-#### Update User
-
-```
-PUT /api/users/:id
-Content-Type: application/json
-
-{
-  "email": "newemail@example.com",  // optional
-  "name": "Jane Doe",                // optional
-  "role": "admin"                    // optional
-}
-```
-
-**Response:** Updated user object
-
-#### Delete User
-
-```
-DELETE /api/users/:id
-```
-
-**Response:** `{ "message": "User deleted successfully" }`
-
----
-
-### Products API (`/api/products`)
-
-#### List Products
-
-```
-GET /api/products?limit=10&offset=0
-```
-
-**Query Parameters:**
-
-- `limit` (optional): Max results, default 10, max 100
-- `offset` (optional): Skip N results, default 0
-
-**Response:** Array of product objects
-
-#### Get Product by ID
-
-```
-GET /api/products/:id
-```
-
-**Response:** Single product object
-
-#### Create Product
-
-```
-POST /api/products
-Content-Type: application/json
-
-{
-  "name": "Laptop",
-  "description": "High-performance laptop",
-  "price": "1299.99",
-  "stock": 50
-}
-```
-
-**Response:** Created product (201)
-
-#### Update Product
-
-```
-PUT /api/products/:id
-Content-Type: application/json
-
-{
-  "name": "Gaming Laptop",      // optional
-  "description": "Updated desc", // optional
-  "price": "1499.99",            // optional
-  "stock": 45                    // optional
-}
-```
-
-**Response:** Updated product object
-
-#### Delete Product
-
-```
-DELETE /api/products/:id
-```
-
-**Response:** `{ "message": "Product deleted successfully" }`
-
----
-
-### Orders API (`/api/orders`)
-
-#### List Orders
-
-```
-GET /api/orders?limit=10&offset=0&userId=1&status=pending
-```
-
-**Query Parameters:**
-
-- `limit` (optional): Max results, default 10, max 100
-- `offset` (optional): Skip N results, default 0
-- `userId` (optional): Filter by user ID
-- `status` (optional): Filter by status (pending, paid, shipped, delivered, cancelled)
-
-**Response:** Array of order objects with user details
-
-#### Get Order by ID (with items)
-
-```
-GET /api/orders/:id
-```
-
-**Response:** Order object with user details and order items (including product info)
-
-#### Create Order (Transaction)
-
-```
-POST /api/orders
-Content-Type: application/json
-
-{
-  "userId": 1,
-  "status": "pending",  // optional
-  "items": [
-    {
-      "productId": 1,
-      "quantity": 2
-    },
-    {
-      "productId": 3,
-      "quantity": 1
+    users {
+        serial id PK
+        varchar email UK
+        text password_hash
+        varchar name
+        varchar role
+        timestamp created_at
+        timestamp updated_at
     }
-  ]
-}
+
+    products {
+        serial id PK
+        varchar name
+        text description
+        numeric price
+        integer stock
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    orders {
+        serial id PK
+        integer user_id FK
+        numeric total_amount
+        varchar status
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    order_items {
+        integer order_id PK, FK
+        integer product_id PK, FK
+        integer quantity
+        numeric price_at_purchase
+    }
 ```
 
-**Transaction Flow:**
+### Table Definitions
 
-1. Validates user exists
-2. Validates all products exist and have sufficient stock
-3. Calculates total amount
-4. Creates order
-5. Creates order_items records
-6. Updates product stock (decrements)
-7. Returns complete order with items
-
-**Response:** Complete order object with items (201)
-
-#### Update Order Status
-
-```
-PUT /api/orders/:id
-Content-Type: application/json
-
-{
-  "status": "shipped"  // pending | paid | shipped | delivered | cancelled
-}
-```
-
-**Response:** Updated order object with items
-
-#### Delete Order
-
-```
-DELETE /api/orders/:id
-```
-
-**Note:** Cascades to order_items automatically
-
-**Response:** `{ "message": "Order deleted successfully" }`
+1. **`users`**: Customer and Admin records.
+   - `email` is strictly validated as unique.
+   - `role` defaults to `'customer'` (can also be `'admin'`).
+2. **`products`**: Inventory items.
+   - `price` utilizes `numeric(10, 2)` to ensure precision.
+   - `stock` is kept as integer with a default of `0`.
+3. **`orders`**: Customer transactions.
+   - `userId` references `users.id` with `onDelete: "cascade"`.
+   - `status` defaults to `'pending'`.
+4. **`order_items`**: Junction table representing the many-to-many relationship between orders and products.
+   - Composite primary key of `(orderId, productId)`.
+   - `orderId` has `onDelete: "cascade"`.
+   - `productId` has `onDelete: "restrict"` to prevent deletion of products that are already ordered.
 
 ---
 
-## 🔒 Error Responses
+## 📡 API Reference & Verification
 
-All errors follow this format:
+Both versions share the exact same API contract. All JSON validation and response serialization are handled automatically via **Zod** integration.
 
-```json
-{
-  "error": "Error message",
-  "statusCode": 400
-}
-```
+### Endpoint Overview
 
-**Common Status Codes:**
-
-- `400` - Bad Request (validation error, business logic error)
-- `404` - Not Found
-- `500` - Internal Server Error
-
-**Validation errors** include a `details` array with field-specific errors.
+| Resource     |  Method  | Path                | Description                  | Query/Body                                 |
+| :----------- | :------: | :------------------ | :--------------------------- | :----------------------------------------- |
+| **System**   |  `GET`   | `/`                 | Health Check                 | None                                       |
+| **Users**    |  `GET`   | `/api/users`        | List Users (Paginated)       | `?limit=10&offset=0`                       |
+|              |  `GET`   | `/api/users/:id`    | Get User by ID               | None                                       |
+|              |  `POST`  | `/api/users`        | Create User                  | `email`, `password`, `name`, `role`        |
+|              |  `PUT`   | `/api/users/:id`    | Update User details          | `email`, `name`, `role` (optional)         |
+|              | `DELETE` | `/api/users/:id`    | Delete User                  | None                                       |
+| **Products** |  `GET`   | `/api/products`     | List Products (Paginated)    | `?limit=10&offset=0`                       |
+|              |  `GET`   | `/api/products/:id` | Get Product by ID            | None                                       |
+|              |  `POST`  | `/api/products`     | Create Product               | `name`, `price`, `stock`, `description`    |
+|              |  `PUT`   | `/api/products/:id` | Update Product details       | `name`, `price`, `stock` (optional)        |
+|              | `DELETE` | `/api/products/:id` | Delete Product               | None                                       |
+| **Orders**   |  `GET`   | `/api/orders`       | List Orders (Filtered)       | `?userId=1&status=pending`                 |
+|              |  `GET`   | `/api/orders/:id`   | Get Order with Items         | None                                       |
+|              |  `POST`  | `/api/orders`       | **Create Order (Atomic Tx)** | `userId`, `items: [{productId, quantity}]` |
+|              |  `PUT`   | `/api/orders/:id`   | Update Order Status          | `status`                                   |
+|              | `DELETE` | `/api/orders/:id`   | Delete Order                 | None                                       |
 
 ---
 
-## 🛠️ Development
+### 🔄 Atomic Transaction Flow (Order Creation)
 
-### Available Scripts
+When a customer checks out, the backend executes an **atomic transaction**:
+
+1. Checks that the user exists.
+2. Fetches and locks the requested products to check stock.
+3. If stock is sufficient, calculates the total amount, deducts the stock from products, inserts the order, and creates the order items.
+4. If any step fails (e.g. out of stock), the transaction rolls back completely.
+
+### 🧪 Live Testing Commands (curl)
+
+Ensure your server is running (`npm run dev`), then use these quick commands to test:
+
+#### 1. Create a User
 
 ```bash
-npm run dev         # Start dev server with hot reload (tsx watch)
-npm run build       # Compile TypeScript to dist/
-npm run start       # Run compiled JS (production)
-npm run db:generate # Generate migration files from schema
-npm run db:migrate  # Apply migrations to database
-npm run db:push     # Push schema changes (dev only, bypasses migrations)
-npm run db:studio   # Open Drizzle Studio GUI
+curl -X POST http://localhost:3000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{"email":"alice@example.com","password":"secure_password","name":"Alice Carter"}'
 ```
 
-### Database Management
-
-**Generate Migration:**
+#### 2. Create a Product
 
 ```bash
-npm run db:generate
+curl -X POST http://localhost:3000/api/products \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Mechanical Keyboard","price":"89.99","stock":15,"description":"RGB mechanical keyboard"}'
 ```
 
-Creates migration SQL files in `src/db/migrations/`
-
-**Apply Migrations:**
+#### 3. Checkout (Atomic Order Creation)
 
 ```bash
-npm run db:migrate
+curl -X POST http://localhost:3000/api/orders \
+  -H "Content-Type: application/json" \
+  -d '{"userId":1,"items":[{"productId":1,"quantity":2}]}'
 ```
 
-**Drizzle Studio (GUI):**
+#### 4. List All Orders (Including items and customer details)
 
 ```bash
-npm run db:studio
+curl http://localhost:3000/api/orders
 ```
 
-Opens a web interface to browse and edit database data
-
 ---
 
-## 🏗️ Architecture Patterns
+## 🛠️ Verification & Development Commands
 
-### Repository Pattern
+```bash
+# Code Quality Checks
+npm run typecheck         # Verify type definitions compile clean
+npm run lint              # Run oxlint for blazingly fast lint check
+npm run format:check      # Check formatting with oxfmt
+npm run format            # Fix formatting across the codebase
 
-Each module follows the layered architecture:
+# Test Runner
+npm run test              # Execute Vitest test suite once
+npm run test:watch        # Keep Vitest running in watch mode
 
-- **Routes**: Define endpoints and schema validation
-- **Controller**: Handle HTTP request/response
-- **Service**: Business logic and orchestration
-- **Repository**: Database operations
-
-### Transaction Example
-
-Orders are created atomically:
-
-```typescript
-await db.transaction(async (tx) => {
-  const order = await tx.insert(orders).values(...).returning();
-  await tx.insert(orderItems).values(...);
-  await tx.update(products).set({ stock: sql`stock - ${qty}` });
-  return order;
-});
+# Drizzle Database CLI
+npm run db:generate       # Generate SQL migrations file from schema
+npm run db:migrate        # Execute migrations against database
+npm run db:push           # Push local typescript schema updates to db (dev)
+npm run db:studio         # Open visual database browser GUI on localhost:4983
 ```
 
-### Type Safety
+---
 
-- Drizzle ORM provides inferred types from schema
-- Zod validates runtime data
-- TypeScript ensures compile-time type safety
-- Fastify decorators are properly typed via `types/index.d.ts`
+## 📚 Documentation Portal
+
+Explore the specific architectural detailed walkthroughs and comparison guides below:
+
+1. **[WHICH_VERSION.md](WHICH_VERSION.md)**: A structured decision matrix helping you pick the right architecture for your team size and system complexity.
+2. **[README_SIMPLE.md](README_SIMPLE.md)**: Full deep-dive into the recommended lightweight, zero-boilerplate route architecture.
+3. **[README_COMPLEX.md](README_COMPLEX.md)**: Detailed breakdown of the enterprise multi-layered repository pattern implementation.
+4. **[ARCHITECTURE_COMPARISON.md](ARCHITECTURE_COMPARISON.md)**: In-depth code-by-code and file-by-file comparison of the two architectures.
+5. **[PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)**: High-level system statistics, core libraries, and implementation features list.
+6. **[QUICKSTART.md](QUICKSTART.md)**: 5-minute fast setup checklist.
+7. **[CHECKLIST.md](CHECKLIST.md)**: Step-by-step developer checklist for starting a new module.
 
 ---
 
-## 🔐 Security Notes
-
-1. **Password Hashing**: The current implementation uses a stub (`hashed_${password}`). In production, use `bcrypt` or `argon2`:
-
-   ```typescript
-   import bcrypt from "bcrypt";
-   const passwordHash = await bcrypt.hash(password, 10);
-   ```
-
-2. **JWT Authentication**: Auth plugin is stubbed. Implement using `@fastify/jwt`:
-
-   ```typescript
-   await fastify.register(import("@fastify/jwt"), {
-     secret: process.env.JWT_SECRET,
-   });
-   ```
-
-3. **CORS**: Configure properly for production in `server.ts`
-
-4. **Environment Variables**: Never commit `.env.local` to version control
-
----
-
-## 📦 Dependencies
-
-### Production
-
-- `fastify` (^5.2.0) - Web framework
-- `drizzle-orm` (^0.33.0) - ORM
-- `pg` (^8.13.1) - PostgreSQL driver
-- `zod` (^3.23.8) - Schema validation
-- `@fastify/type-provider-zod` (^5.0.0) - Zod integration
-- `fastify-plugin` (^5.0.1) - Plugin system
-- `http-errors` (^2.0.0) - HTTP error utilities
-- `@fastify/cors` (^10.0.1) - CORS support
-- `@fastify/helmet` (^12.0.1) - Security headers
-- `@fastify/compress` (^8.0.1) - Response compression
-- `dotenv` (^16.4.7) - Environment variables
-
-### Development
-
-- `typescript` (^5.7.2)
-- `tsx` (^4.19.2) - TypeScript executor
-- `drizzle-kit` (^0.24.2) - Migrations CLI
-- `@types/*` - Type definitions
-
----
-
-## 🚦 Next Steps
-
-- [ ] Implement proper password hashing (bcrypt/argon2)
-- [ ] Add JWT authentication
-- [ ] Add API rate limiting
-- [ ] Add request logging
-- [ ] Add unit/integration tests
-- [ ] Add API documentation (Swagger/OpenAPI)
-- [ ] Add Docker support
-- [ ] Add CI/CD pipeline
-
----
-
-## 📄 License
-
-ISC
-
----
-
-**Built with ❤️ using Fastify + Drizzle ORM**
+**Built with ❤️ using Fastify 5.x, Drizzle ORM, Zod, and Clean Architecture Principles.**

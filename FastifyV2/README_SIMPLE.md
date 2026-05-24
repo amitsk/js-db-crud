@@ -272,7 +272,7 @@ Until then, **keep it simple!**
 ## 📚 Documentation
 
 - [ARCHITECTURE_COMPARISON.md](ARCHITECTURE_COMPARISON.md) - Detailed comparison
-- [README.md](README.md) - Full complex version docs
+- [README_COMPLEX.md](README_COMPLEX.md) - Full complex version docs
 - [QUICKSTART.md](QUICKSTART.md) - Quick reference
 
 ## 🧪 Example: Test the API
